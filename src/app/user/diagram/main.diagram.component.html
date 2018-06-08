@@ -1,0 +1,27 @@
+<div class="ui fluid container" style="padding:10px;">
+    <div class="ui top attached inverted teal segment" style="border:none;">
+        <h2 class="ui header">
+            <i class="phone icon"></i>
+            <div class="content">
+                چارت سازمانی ادارات، شعب، و ...
+                <div class="sub header">نمایش چارت سازمانی ادارات، شعب، حوزه و سایر گزارشات مربوطه</div>
+            </div>
+        </h2>
+    </div>
+    <div class="ui attached segment">
+        <mat-tab-group>
+            <mat-tab label="کادر مصوب اداره">
+                <dep-diagram-com></dep-diagram-com>
+            </mat-tab>
+            <mat-tab label="کادر مصوب شعبه">
+                <branch-diagram-com></branch-diagram-com>
+            </mat-tab>
+            <mat-tab label="کادر مصوب حوزه">
+                <hoze-diagram-com></hoze-diagram-com>
+            </mat-tab>
+            <mat-tab label="کادر مصوب شعب منتخب">
+                <select-branch-diagram-com></select-branch-diagram-com>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

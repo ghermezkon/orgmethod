@@ -1,0 +1,218 @@
+<div class="ui container" style="overflow:hidden;">
+    <div class="ui stackable grid container" style="padding-top:10px;">
+        <div class="row" style="padding-bottom:0px;padding-right:10px;">
+            <div class="six wide column">
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <mat-form-field style="width:120px;">
+                            <input matInput [formControl]="dep_code" autocomplete="off" placeholder="کد اداره امور" style="text-align:center;" maxlength="4"
+                                (blur)="check_department($event)" required (keydown)="check_department($event)">
+                            <mat-error align="right" *ngIf="dep_code.invalid">{{getErrorMessage(dep_code)}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="eight wide column">
+                        <button mat-raised-button ripple color="accent" *ngIf="create_document" 
+                            (click)="create_new_document()" type="button">{{create_button_text}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ten wide column">
+                <div class="mat-elevation-z4" *ngIf="dep_code.valid && department && !create_document">
+                    <div class="ui internally celled grid">
+                        <div class="row">
+                            <div class="five wide center aligned column" style="font-weight:bold;">
+                                {{department.dep_name}}
+                            </div>
+                            <div class="three wide column">
+                            </div>
+                            <div class="eight wide left aligned column">
+                                <span>تاریخ حجم کار: </span>
+                                <span style="color:red;">
+                                    <b>{{mah_date_int}}</b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top:0px;padding-bottom:0px;">
+            <div class="wide column">
+                <div class="ui divider"></div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom:20px;padding-right:10px;" 
+            *ngIf="dep_code.valid && department && !create_document">
+            <div class="four wide column">
+                <form [formGroup]="dataForm" novalidate>
+                    <div class="ui grid">
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field style="width:80px;">
+                                    <input matInput #branchCode formControlName="branch_code" autocomplete="off" placeholder="کد شعبه" style="text-align:center;"
+                                        maxlength="4" required (blur)="check_branch($event)" (keydown)="check_branch($event)">
+                                    <mat-error align="right" *ngIf="dataForm.get('branch_code').invalid">{{getErrorMessage(dataForm.get('branch_code'))}}</mat-error>
+                                </mat-form-field>
+                                <a class="ui right pointing teal label" *ngIf="branch_name">{{branch_name}}</a>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput required formControlName="code_240" autocomplete="off" placeholder="تعداد چکهای انتقالی ارسالی و رسیده" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_240').invalid">{{getErrorMessage(dataForm.get('code_240'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput formControlName="code_241" autocomplete="off" placeholder="تعداد چکهای برگشتی صادره شعبه" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_241').invalid">{{getErrorMessage(dataForm.get('code_241'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput required formControlName="code_243" autocomplete="off" placeholder="تعداد قبوض خدماتی" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_243').invalid">{{getErrorMessage(dataForm.get('code_243'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput formControlName="code_244" autocomplete="off" placeholder="تعداد قبوض خدماتی باجه عصر" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_244').invalid">{{getErrorMessage(dataForm.get('code_244'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput formControlName="code_245" autocomplete="off" placeholder="تعداد دورنگار" style="text-align:center;" maxlength="4">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_245').invalid">{{getErrorMessage(dataForm.get('code_245'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput formControlName="code_248" autocomplete="off" placeholder="تعداد نامه های وارده" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_248').invalid">{{getErrorMessage(dataForm.get('code_248'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;padding-top:0px;">
+                            <div class="wide column">
+                                <mat-form-field>
+                                    <input matInput formControlName="code_249" autocomplete="off" placeholder="تعداد نامه های صادره" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="dataForm.get('code_249').invalid">{{getErrorMessage(dataForm.get('code_249'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:0px;">
+                            <div class="wide column">
+                                <button mat-raised-button ripple color="accent" (click)="update_branchwork()" [disabled]="!dataForm.valid || branch_name == null"
+                                    style="width:100%;" type="button">ذخیره اطلاعات</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="one wide column">
+                <div class="ui vertical divider"></div>
+            </div>
+            <div class="eleven wide column">
+                <table class="table-diagram mat-elevation-z8" id="table123"
+                    *ngIf="dep_code.valid && department && !create_document" 
+                    style="display:inline-block;">
+                    <thead>
+                        <tr>
+                            <th class="th-diagram" colspan="10" style="text-align:left;">
+                                <mat-checkbox (change)="show_error_branch($event)">شعبی که آمار آنها ثبت نشده است</mat-checkbox>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="th-diagram">
+                                <div>
+                                    <span>کد شعبه</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:200px;">
+                                <div>
+                                    <span>نام شعبه</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد چکهای انتقالی رسیده و صادره</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد چکهای برگشتی صادره شعبه</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد قبوض خدماتی</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد قبوض خدماتی باجه عصر</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:50px;">
+                                <div>
+                                    <span>تعداد دورنگار</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد نامه های وارده</span>
+                                </div>
+                            </th>
+                            <th class="th-diagram" style="width:100px;">
+                                <div>
+                                    <span>تعداد نامه های صادره</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let p of pagedItems">
+                            <tr>
+                                <td class="td-diagram center th-header-diagram">{{p.branch_code}}</td>
+                                <td class="td-diagram center th-header-diagram">{{p.branch_name}}</td>
+
+                                <ng-container *ngFor="let k of p.items_branch">
+                                    <td class="td-diagram center">{{k.amount}}</td>
+                                </ng-container>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="th-diagram" colspan="10">
+                                <div *ngIf="pager.pages && pager.pages.length" class='paging'>
+                                    <a [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1)">اول</a>
+                                    <a [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(pager.currentPage - 1)">قبلی</a>
+                                    <ng-container *ngFor="let page of pager.pages">
+                                        <a [ngClass]="{active:pager.currentPage === page}" (click)="setPage(page)">{{page}}</a>
+                                    </ng-container>
+                                    <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.currentPage + 1)">بعدی</a>
+                                    <a [ngClass]="{disabled:pager.currentPage === pager.totalPages}" (click)="setPage(pager.totalPages)">آخر</a>
+                                </div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <!-- pager -->
+
+            </div>
+        </div>
+    </div>
+</div>

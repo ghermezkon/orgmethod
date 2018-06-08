@@ -1,0 +1,24 @@
+<div class="ui container" style="padding:10px;">
+    <div class="ui top attached inverted teal segment" style="border:none;">
+        <h2 class="ui header">
+            <i class="phone icon"></i>
+            <div class="content">
+                گزارشات از آمار حجم کار ماهیانه
+                <div class="sub header">دریافت گزاشات مختلف از آمار حجم کار ماهیانه اداره امور شعب</div>
+            </div>
+        </h2>
+    </div>
+    <div class="ui attached segment">
+        <mat-tab-group>
+            <mat-tab label="گزارش جداول آمار حجم کار">
+                <table-branch-work-com></table-branch-work-com>
+            </mat-tab>
+            <mat-tab label="گزارش کمترین و بیشترین">
+                <min-max-branch-work-com></min-max-branch-work-com>
+            </mat-tab>
+            <mat-tab label="گزارش بر اساس شاخص ها">
+                <amount-by-fldcode-com></amount-by-fldcode-com>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

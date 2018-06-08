@@ -1,0 +1,148 @@
+<div class="ui container" style="overflow:hidden;padding-top:10px;padding-bottom:5px;">
+    <form>
+        <div class="ui stackable grid container">
+            <div class="row">
+                <div class="seven wide column">
+                    <div class="ui inverted teal secondary segment">
+                        <h3 class="ui header">
+                            <div class="content" style="width:100%;">
+                                {{dep.dep_name}} (کد:
+                                <b>{{dep.dep_code}}</b>)
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="ui teal segment">
+                        <div class="ui grid container">
+                            <div class="eleven wide column">
+                                <mat-form-field style="width:250px;">
+                                    <mat-select placeholder="لیست دوایر" [formControl]="circletype_select" required>
+                                        <mat-option>None</mat-option>
+                                        <mat-option *ngFor="let ct of circletype_list" [value]="ct">{{ct.circletype_name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="five wide column">
+                                <button mat-raised-button ripple color="accent" [disabled]="!circletype_select.valid" (click)="addCircle(circletype_select)"
+                                    type="button">اضافه به لیست</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="one wide column">
+                    <div class="ui vertical divider"></div>
+                </div>
+                <div class="eight wide column">
+                    <div class="ui teal segment" *ngIf="dataSourceCircle.data.length > 0">
+                        <mat-table #datagridCircle [dataSource]="dataSourceCircle" matSort>
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                <mat-cell class="col-select" *matCellDef="let row">
+                                    <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="circletype_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد دایره </mat-header-cell>
+                                <mat-cell class="col-circletype_code" *matCellDef="let element"> {{element.circletype_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="circletype_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام دایره </mat-header-cell>
+                                <mat-cell class="col-circletype_name" *matCellDef="let element"> {{element.circletype_name}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="operate">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell class="col-operate" *matCellDef="let element">
+                                    <button mat-icon-button ripple [color]="deleteButtonColor" type="button" 
+                                        (click)="deleteCirlce(element)" title="حذف رکورد">
+                                        <i class="fa fa-remove fa-lg"></i>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" [ngClass]="{'row-select': selectedRowIndex == row.circletype_code}"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginatorCircle [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="wide column">
+                    <h4 class="ui horizontal divider header">
+                        <i class="fa fa search"></i>
+                        لیست پرسنل اضافه شده
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="wide column">
+                    <div class="ui teal segment" *ngIf="selectedRowIndex != -1">
+                        <div class="ui grid container">
+                            <div class="row" style="padding-bottom:0px;">
+                                <div class="five wide column">
+                                    <mat-form-field style="width:250px;">
+                                        <mat-select placeholder="لیست مشاغل سازمانی" [formControl]="posttype_select" required>
+                                            <mat-option>None</mat-option>
+                                            <mat-option *ngFor="let pt of posttype_list" [value]="pt">{{pt.posttype_name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="two wide column">
+                                    <mat-form-field style="width:100px;">
+                                        <input matInput autocomplete="off" [formControl]="personel_number" placeholder="تعداد پرسنل" style="text-align:center;" maxlength="2"
+                                            required>
+                                        <mat-error align="right" *ngIf="personel_number.invalid">{{getErrorMessage(personel_number)}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="two wide right aligned column">
+                                    <button mat-raised-button ripple color="accent" [disabled]="!posttype_select.valid || !personel_number.valid" (click)="addPost()"
+                                        type="button">اضافه به لیست</button>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:0px;">
+                                <div class="wide column">
+                                    <div *ngIf="dataSourcePost.data.length > 0">
+                                        <mat-table #datagridPost [dataSource]="dataSourcePost" matSort>
+                                            <ng-container matColumnDef="posttype.posttype_code">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد پست سازمانی </mat-header-cell>
+                                                <mat-cell class="col-posttype_code" *matCellDef="let element"> {{element.posttype.posttype_code}} </mat-cell>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="posttype.posttype_name">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام پست سازمانی </mat-header-cell>
+                                                <mat-cell class="col-posttype_name" *matCellDef="let element"> {{element.posttype.posttype_name}} </mat-cell>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="personel_number">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> تعداد پرسنل </mat-header-cell>
+                                                <mat-cell class="col-personel_number" *matCellDef="let element"> {{element.personel_number}} </mat-cell>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="operate">
+                                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                                <mat-cell class="col-operate" *matCellDef="let element">
+                                                    <button mat-icon-button ripple [color]="deleteButtonColor" type="button" (click)="deletePost(element)" title="حذف رکورد">
+                                                        <i class="fa fa-remove fa-lg"></i>
+                                                    </button>
+                                                </mat-cell>
+                                            </ng-container>
+
+                                            <mat-header-row *matHeaderRowDef="displayedColumnsPost"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: displayedColumnsPost;" [ngClass]="{'row-select': selectedRowIndex == row.circletype_code}"></mat-row>
+                                        </mat-table>
+                                        <mat-paginator #paginatorPost [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

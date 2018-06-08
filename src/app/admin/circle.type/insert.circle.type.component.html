@@ -1,0 +1,84 @@
+<div class="ui container" style="overflow:hidden;">
+    <form novalidate [formGroup]="dataForm">
+        <div class="ui stackable grid container" style="padding-top:10px;">
+            <div class="row" style="padding-bottom:5px;">
+                <div class="eight wide column">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:150px;">
+                                <input matInput formControlName="circletype_code" autocomplete="off" placeholder="کد سازمانی دایره" style="text-align:center;"
+                                    maxlength="3" required>
+                                <mat-error align="right" *ngIf="dataForm.get('circletype_code').invalid">{{getErrorMessage(dataForm.get('circletype_code'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:300px;">
+                                <input matInput formControlName="circletype_name" autocomplete="off" placeholder="عنوان سازمانی دایره" style="text-align:center;"
+                                    required>
+                                <mat-error align="right" *ngIf="dataForm.get('circletype_name').invalid">{{getErrorMessage(dataForm.get('circletype_name'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="eight wide column">
+                    <div class="mat-elevation-z4">
+                        <div class="filter-header">
+                            <mat-form-field style="width:100%;">
+                                <input #inputFilter matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <mat-table #datagrid [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                <mat-cell class="col-select" *matCellDef="let row">
+                                    <mat-checkbox (click)="selectRow(row)"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="circletype_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد سازمانی دایره </mat-header-cell>
+                                <mat-cell class="col-circletype-code" *matCellDef="let element"> {{element.circletype_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="circletype_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> عنوان سازمانی دایره </mat-header-cell>
+                                <mat-cell class="col-circletype-name" *matCellDef="let element"> {{element.circletype_name}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'row-select': selectedRowIndex == row.circletype_code}"
+                                (click)="selectRow(row)"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-bottom:0px;">
+                <div class="wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;">
+                <div class="wide left aligned column">
+                    <a class="ui teal tag label">{{date_message}}</a>
+                    <button mat-raised-button ripple color="accent" *ngIf="state_save" [disabled]="!dataForm.valid" (click)="save_circletype(dataForm.value)"
+                        type="button">ذخیره اطلاعات</button>
+                    <button mat-raised-button ripple color="primary" *ngIf="!state_save" [disabled]="!dataForm.valid" (click)="update_circletype(dataForm.value)"
+                        type="button">ویرایش اطلاعات</button>
+                    <button mat-icon-button ripple color="primary" type="button" title="Excel" (click)="export()">
+                        <i class="fa fa-download fa-lg"></i>
+                    </button>
+                    <button mat-icon-button ripple color="primary" type="reset" (click)="resetForm()" title="پاک کردن صفحه">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

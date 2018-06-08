@@ -1,0 +1,132 @@
+<div class="ui container" style="overflow:hidden;">
+    <form novalidate>
+        <div class="ui stackable grid" style="padding-top:10px;padding-bottom:10px;">
+            <div class="row" style="padding-bottom:5px;padding-right:20px;">
+                <div class="wide column">
+                    <div class="ui teal segment">
+                        <div class="ui grid">
+                            <div class="row" style="padding-bottom:0px;">
+                                <div class="two wide column">
+                                    <mat-form-field style="width:120px;">
+                                        <input matInput [formControl]="dep_code" autocomplete="off" placeholder="کد اداره امور" style="text-align:center;" maxlength="4"
+                                            required>
+                                        <mat-error align="right" *ngIf="dep_code.invalid">{{getErrorMessage(dep_code)}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="three wide column">
+                                    <mat-form-field>
+                                        <mat-select placeholder="تاریخ حجم کار" [formControl]="mah_date" (selectionChange)="dateSelect($event)" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let tbl of mah_date_list" [value]="tbl">
+                                                {{ tbl }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="three wide column">
+                                    <mat-form-field>
+                                        <mat-select placeholder="جداول" (selectionChange)="tableSelect($event)" [formControl]="table_id" required>
+                                            <mat-option>--</mat-option>
+                                            <mat-option *ngFor="let tbl of table_list" [value]="tbl">
+                                                {{ tbl }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="eight wide column">
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:0px;">
+                                <div class="sixteen wide column">
+                                    <div class="ui divider"></div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:0px;">
+                                <div class="eight wide column">
+                                    <div class="mat-elevation-z4">
+                                        <div class="filter-header">
+                                            <mat-form-field style="width:100%;">
+                                                <input #inputFilter matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو" autocomplete="off">
+                                            </mat-form-field>
+                                        </div>
+                                        <mat-table #datagrid [dataSource]="dataSource" matSort>
+                                            <ng-container matColumnDef="select">
+                                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                                <mat-cell class="col-select" *matCellDef="let row">
+                                                    <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                                    </mat-checkbox>
+                                                </mat-cell>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="row_code">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد ردیف </mat-header-cell>
+                                                <mat-cell class="col-row_code" *matCellDef="let element"> {{element.row_code}} </mat-cell>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="row_name">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> عنوان ردیف </mat-header-cell>
+                                                <mat-cell class="col-row_name" *matCellDef="let element"> {{element.row_name}} </mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="group_code">
+                                                <mat-header-cell *matHeaderCellDef mat-sort-header> کدهای زیر مجموعه </mat-header-cell>
+                                                <mat-cell class="col-group_code" *matCellDef="let element"> {{element.group_code}} </mat-cell>
+                                            </ng-container>
+
+                                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'row-select': selectedRowIndex == row.row_code}" (click)="selectRow(row)"></mat-row>
+                                        </mat-table>
+                                        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+                                <div class="two wide column">
+                                    <mat-radio-group class="radio-group" [formControl]="min_max_select_value" (change)="showCodeSelect($event)" *ngIf="index != -1">
+                                        <mat-radio-button class="radio-button" value="min">کمترین</mat-radio-button>
+                                        <mat-radio-button class="radio-button" value="max">بیشترین</mat-radio-button>
+                                    </mat-radio-group>
+                                    <div class="ui divider" *ngIf="min_max_select_value.valid"></div>
+                                    <br/>
+                                    <mat-radio-group class="radio-group" [formControl]="code_select_value" (change)="codeSelect($event)" *ngIf="min_max_select_value.valid">
+                                        <mat-radio-button class="radio-button" style="font-weight:bold;" *ngFor="let tbl of splite_list"
+                                            [value]="tbl">
+                                            {{tbl}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui teal padded center aligned inverted segment" *ngIf="code_list && code_select_value.valid">
+                                        {{code_label}}
+                                    </div>
+                                    <div *ngIf="code_list">
+                                        <table class="table-diagram mat-elevation-z8" style="width:100%;" *ngIf="code_select_value.valid">
+                                            <tr>
+                                                <th class="th-diagram">#</th>
+                                                <th class="th-diagram">کد شعبه</th>
+                                                <th class="th-diagram">کد</th>
+                                                <th class="th-diagram">تعداد/مقدار</th>
+                                            </tr>
+                                            <ng-container *ngFor="let i of code_list.items; let idx = index;let isOdd=odd;">
+                                                <tr [class.oddRow]="isOdd">
+                                                    <td class="td-diagram center th-header-diagram">{{idx+1}}</td>
+
+                                                    <td class="td-diagram center">{{i.branch_code}}</td>
+                                                    <td class="td-diagram center">{{i.fldcode | number}}</td>
+                                                    <td class="td-diagram center">{{i.amount | number}}</td>
+                                                </tr>
+                                            </ng-container>
+                                        </table>
+                                    </div>
+                                    <div *ngIf="!code_list && code_select_value.valid && min_max_select_value.valid">
+                                        <div class="ui center aligned padded red inverted segment">
+                                            هیچ رکوردی وجود نداشته یا مقدار آن برابر صفر است
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

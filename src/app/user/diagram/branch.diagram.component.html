@@ -1,0 +1,100 @@
+<div class="ui fluid container" style="overflow:hidden;">
+    <form novalidate>
+        <div class="ui stackable grid" style="padding-top:10px;padding-bottom:10px;">
+            <div class="row" style="padding-bottom:5px;padding-right:20px;">
+                <div class="wide column">
+                    <div class="ui teal segment">
+                        <div class="ui grid">
+                            <div class="row" style="padding-bottom:0px;">
+                                <div class="two wide column">
+                                    <mat-form-field style="width:120px;">
+                                        <input matInput [formControl]="dep_code" autocomplete="off" placeholder="کد اداره امور" style="text-align:center;" maxlength="4"
+                                            required>
+                                        <mat-error align="right" *ngIf="dep_code.invalid">{{getErrorMessage(dep_code)}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="two wide column">
+                                    <mat-form-field style="width:120px;">
+                                        <input matInput [formControl]="branch_code" autocomplete="off" placeholder="کد شعبه" style="text-align:center;" maxlength="4"
+                                            required>
+                                        <mat-error align="right" *ngIf="branch_code.invalid">{{getErrorMessage(branch_code)}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="three wide column">
+                                    <button mat-raised-button ripple color="primary" [disabled]="dep_code.invalid || branch_code.invalid" (click)="find(dep_code.value, branch_code.value)"
+                                        type="button">نمایش</button>
+                                    <button mat-icon-button ripple color="primary" *ngIf="branch_table.length > 0" type="button" title="Excel" (click)="export()">
+                                        <i class="fa fa-download fa-lg"></i>
+                                    </button>
+                                </div>
+                                <div class="nine wide column">
+                                    <div class="mat-elevation-z4" *ngIf="branch_table.length > 0">
+                                        <div class="ui internally celled grid">
+                                            <div class="row">
+                                                <div class="five wide center aligned column" style="font-weight:bold;">
+                                                    {{branch_header.branch_name}}
+                                                </div>
+                                                <div class="four wide column">
+                                                </div>
+                                                <div class="seven wide center aligned column">
+                                                    <span>تاریخ آخرین ویرایش: </span>
+                                                    <span style="color:red;">
+                                                        <b>{{branch_header.last_update_long}}</b>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:0px;">
+                                <div class="sixteen wide column">
+                                    <div class="ui divider"></div>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top:0px;overflow:scroll;">
+                                <div class="sixteen wide column" *ngIf="branch_table.length > 0">
+                                    <div style="width:100%;text-align:center;">
+                                        <table class="table-diagram" id="table123" style="display:inline-block;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="th-diagram">#</th>
+                                                    <th class="th-diagram">
+                                                        <div>
+                                                            <span>نام دایره</span>
+                                                        </div>
+                                                    </th>
+                                                    <ng-container *ngFor="let c of column_name">
+                                                        <th class="th-diagram rotate">
+                                                            <div>
+                                                                <span>{{c.posttype_name}}</span>
+                                                            </div>
+                                                        </th>
+                                                    </ng-container>
+                                                    <th class="th-diagram">جمع کل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <ng-container *ngFor="let r of branch_table;let idx = index;let isOdd=odd;let last = last;">
+                                                    <tr [class.oddRow-diagram]="isOdd">
+                                                        <td class="td-diagram center th-header-diagram">{{idx+1}}</td>
+                                                        <td class="td-diagram center th-header-diagram" style="width:150px;min-width:170px;">{{r.circle}}</td>
+                                                        <ng-container *ngFor="let p of r.row">
+                                                            <td class="td-diagram center" *ngIf="!last">{{p.value}}</td>
+                                                            <td class="td-sum-diagram center" *ngIf="last">{{p.sum}}</td>
+                                                        </ng-container>
+                                                        <td class="td-sum-diagram center">{{r.sum}}</td>
+                                                    </tr>
+                                                </ng-container>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

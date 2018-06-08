@@ -1,0 +1,149 @@
+<div class="ui container" style="overflow:hidden;">
+    <form novalidate [formGroup]="melkForm">
+        <div class="ui stackable grid container" style="padding-top:10px;">
+            <div class="row" style="padding-bottom:5px;padding-right:10px;">
+                <div class="eight wide column">
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <div class="ui inverted teal secondary segment">
+                                    <h3 class="ui header">
+                                        <div class="content" style="width:100%;">
+                                            شعبه {{branch.branch_name}} (کد:
+                                            <b>{{branch.branch_code}}</b>)
+                                        </div>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="eight wide column" formGroupName="melk_type">
+                                <mat-form-field style="width:250px;">
+                                    <mat-select placeholder="مشخصات وضعیت محل شعبه" (selectionChange)="melkTypeSelect($event)" 
+                                        formControlName="name" required>
+                                        <mat-option>None</mat-option>
+                                        <mat-option *ngFor="let m of melk_type_list" [value]="m.name">{{m.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="eight wide column">
+                                <mat-form-field style="width:100%;" *ngIf="melkForm.get('melk_type').get('type').value && melkForm.get('melk_type').get('type').value == 1">
+                                    <input matInput formControlName="aztaraf" autocomplete="off" placeholder="از طرف" style="text-align:right;">
+                                    <mat-error align="right" *ngIf="melkForm.get('aztaraf').invalid">{{getErrorMessage(melkForm.get('aztaraf'))}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field style="width:100%;" *ngIf="melkForm.get('melk_type').get('type').value && melkForm.get('melk_type').get('type').value == 2">
+                                    <input matInput formControlName="moghofe" autocomplete="off" placeholder="موقوفه از طرف" style="text-align:right;">
+                                    <mat-error align="right" *ngIf="melkForm.get('moghofe').invalid">{{getErrorMessage(melkForm.get('moghofe'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="six wide column">
+                                <mat-form-field style="width:100%;">
+                                    <input matInput formControlName="masahat" autocomplete="off" placeholder="مساحت ساختمان" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('masahat').invalid">{{getErrorMessage(melkForm.get('masahat'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="six wide column">
+                                <mat-form-field style="width:100%;">
+                                    <input matInput formControlName="zirbana" autocomplete="off" placeholder="زیربنا" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('zirbana').invalid">{{getErrorMessage(melkForm.get('zirbana'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="four wide column">
+                                <mat-form-field style="width:100%;">
+                                    <input matInput formControlName="floor_number" autocomplete="off" placeholder="تعداد طبقات" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('floor_number').invalid">{{getErrorMessage(melkForm.get('floor_number'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="khazane_boton">خزانه بتن آرمه دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="khazane_boton_full">خزانه صندوق دوجداره بزرگ دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="soldier">مامور مسلح دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="camera">دوربین مدار بسته دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="loud_system">سیستم آژیر دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="wide column">
+                                <mat-checkbox formControlName="sandogh_amanat">صندوق اجاره ای دارد</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ui grid">
+                            <div class="five wide column">
+                                <mat-form-field style="width:100%;" *ngIf="melkForm.get('sandogh_amanat').value">
+                                    <input matInput formControlName="sandogh_big" autocomplete="off" placeholder="تعداد صندوق بزرگ" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('sandogh_big').invalid">{{getErrorMessage(melkForm.get('sandogh_big'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="six wide column">
+                                <mat-form-field style="width:100%;" *ngIf="melkForm.get('sandogh_amanat').value">
+                                    <input matInput formControlName="sandogh_middle" autocomplete="off" placeholder="تعداد صندوق متوسط" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('sandogh_middle').invalid">{{getErrorMessage(melkForm.get('sandogh_middle'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="five wide column">
+                                <mat-form-field style="width:100%;" *ngIf="melkForm.get('sandogh_amanat').value">
+                                    <input matInput formControlName="sandogh_small" autocomplete="off" placeholder="تعداد صندوق کوچک" style="text-align:center;">
+                                    <mat-error align="right" *ngIf="melkForm.get('sandogh_small').invalid">{{getErrorMessage(melkForm.get('sandogh_small'))}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eight wide column"></div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-bottom:0px;padding-right:10px;">
+                <div class="wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-right:10px;">
+                <div class="wide left aligned column">
+                    <a class="ui teal tag label">{{date_message}}</a>
+                    <button mat-raised-button ripple color="primary" [disabled]="!melkForm.valid" 
+                        (click)="update_branch(melkForm.value)" type="button">ویرایش اطلاعات</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- <pre style="direction:ltr;">
+    {{melkForm.value | json}}
+</pre> -->

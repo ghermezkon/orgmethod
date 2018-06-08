@@ -1,0 +1,10 @@
+:host /deep/ .col-deptype-code{
+    text-align:center;
+}
+.mat-column-deptype_code{
+    max-width:30%;
+}
+:host /deep/ .col-deptype-name{
+    text-align:center;
+    width:70%;
+}

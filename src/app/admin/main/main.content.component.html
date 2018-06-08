@@ -1,0 +1,79 @@
+<div class="ui grid container">
+    <div class="row">
+        <div class="ui container stacked segment" style="background-color:#ECEFF1">
+            <mat-menu #appMenu="matMenu" yPosition="below">
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/ostan'"> تعریف استان ها </button>
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/city'"> تعریف شهر </button>
+                <div class="ui divider" style="padding:0;margin:0;"></div>
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/deptype'"> تعریف انواع واحد ها </button>
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/circletype'"> تعریف دوایر </button>
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/posttype'"> تعریف مشاغل سازمانی </button>
+                <div class="ui divider" style="padding:0;margin:0;"></div>
+                <button mat-menu-item style="direction:rtl;text-align:right;" [routerLink]="'/filecode'"> تعریف ردیف های جداول </button>
+            </mat-menu>
+            <div class="ui container grid centered">
+                <div class="four wide column">
+                    <mat-card [appHighlight]="'#1565C0'" defaultColor="#303F9F" [matMenuTriggerFor]="appMenu" class="card-corner">
+                        <mat-card-content>
+                            <div class="ui grid container">
+                                <div class="sixteen wide column center aligned" style="padding-top:0px;">
+                                    <i class="fa fa-gears fa-4x" aria-hidden="true"></i>
+                                </div>
+                                <div class="sixteen wide column center aligned" style="padding-top:0px;font-size:15px;">
+                                    تعاریف اولیه
+                                </div>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-footer class="card-footer card-corner-footer">
+                            تعریف متغیر های و پارامترهای مورد نیاز برنامه
+                        </mat-card-footer>
+                    </mat-card>
+                </div>
+                <ng-container *ngFor="let mm of main_menu">
+                    <div class="four wide column">
+                        <mat-card [appHighlight]="'#1565C0'" defaultColor="#303F9F" [routerLink]="mm.menu_link" class="card-corner">
+                            <mat-card-content>
+                                <div class="ui grid container">
+                                    <div class="sixteen wide column center aligned" style="padding-top:0px;">
+                                        <i class="{{mm.menu_icon}}" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="sixteen wide column center aligned" style="padding-top:0px;font-size:15px;">
+                                        {{mm.menu_title}}
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                            <mat-card-footer class="card-footer card-corner-footer">
+                                {{mm.footer_text}}
+                            </mat-card-footer>
+                        </mat-card>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ui container stacked segment" style="background-color:#ECEFF1">
+            <div class="ui container grid centered">
+                <ng-container *ngFor="let mm of branchwork_menu">
+                    <div class="four wide column">
+                        <mat-card [appHighlight]="'#1565C0'" defaultColor="#b71c1c" [routerLink]="mm.menu_link" class="card-corner">
+                            <mat-card-content>
+                                <div class="ui grid container">
+                                    <div class="sixteen wide column center aligned" style="padding-top:0px;">
+                                        <i class="{{mm.menu_icon}}" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="sixteen wide column center aligned" style="padding-top:0px;font-size:15px;">
+                                        {{mm.menu_title}}
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                            <mat-card-footer class="card-footer-branchwork card-corner-footer">
+                                {{mm.footer_text}}
+                            </mat-card-footer>
+                        </mat-card>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+<div style="direction:rtl;overflow:hidden;">
+    <h2 mat-dialog-title style="direction:rtl;background-color:#3F51B5;padding:10px;color:white;text-align:center;">جستجوی پیشرفته شعب</h2>
+    <mat-dialog-content>
+        <div class="ui container">
+            <div class="ui grid container">
+                <div class="row">
+                    <div class="wide column">
+                        <div class="ui segments">
+                            <div class="ui top attached teal inverted segment" style="border:0px;font-weight:bold;">
+                                جستجو بر اساس مشخصات اصلی شعب
+                            </div>
+                            <div class="ui segment">
+                                <div class="ui grid container">
+                                    <div class="row" style="padding-bottom:0px;">
+                                        <div class="four wide column">
+                                            <mat-form-field style="width:100%;">
+                                                <mat-select placeholder="عنوان ستون" [(ngModel)]="field_selected">
+                                                    <mat-option *ngFor="let code of code_menu" [value]="code">
+                                                        {{code.field_code_fa}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="four wide column">
+                                            <mat-form-field style="width:100%;" *ngIf="field_selected">
+                                                <mat-select placeholder="عملگر" [(ngModel)]="operate_selected">
+                                                    <mat-option *ngFor="let o of field_selected.operate" [value]="o">
+                                                        {{o.operate_fa}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="four wide column" *ngIf="(field_selected && operate_selected)">
+                                            <mat-form-field style="width:100%" *ngIf="field_selected.field_code_en != 'branch_type'">
+                                                <input matInput autocomplete="off" [(ngModel)]="field_value" style="text-align:center;" placeholder="{{field_selected.field_code_fa}}"
+                                                    required>
+                                                <mat-error align="right"></mat-error>
+                                            </mat-form-field>
+                                            <mat-form-field style="width:100%;" *ngIf="field_selected.field_code_en == 'branch_type'">
+                                                <mat-select placeholder="نوع واحد" [(ngModel)]="field_value" required>
+                                                    <mat-option *ngFor="let b of branch_type_list" [value]="b">{{b}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div class="two wide column" *ngIf="(field_selected && operate_selected && field_value)">
+                                            <button mat-raised-button ripple color="accent" (click)="generate_query()" type="button">جستجو</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="wide column">
+                        <div class="ui segments">
+                            <div class="ui top attached red segment" style="font-weight:bold;">
+                                جستجو بر اساس مشخصات املاک شعب
+                            </div>
+                            <div class="ui segment">
+                                <div class="ui grid container">
+                                    <div class="row" style="padding-bottom:0px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>

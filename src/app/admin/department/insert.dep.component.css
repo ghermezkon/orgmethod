@@ -1,0 +1,18 @@
+:host /deep/ .col-dep-code{
+    text-align:center;
+}
+.mat-column-dep_code{
+    max-width:30%;
+}
+:host /deep/ .col-dep-name{
+    text-align:center;
+    width:40%;
+}
+:host /deep/ .col-dep-code-posti-name{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-deptype{
+    text-align:center;
+    width:30%;
+}

@@ -1,0 +1,21 @@
+:host /deep/ .col-city-code{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-city-name{
+    text-align:center;
+    width: 40%;
+}
+:host /deep/ .col-country-code{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-city-type{
+    text-align:center;
+    width:20%;
+    word-wrap: break-word;
+}
+
+:host /deep/ .disable-city-code{
+    pointer-events:none;
+}

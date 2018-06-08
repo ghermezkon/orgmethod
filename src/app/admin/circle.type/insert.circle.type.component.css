@@ -1,0 +1,11 @@
+:host /deep/ .col-circletype-code{
+    text-align:center;
+    width:30%;
+}
+.mat-column-circletype_code{    
+    max-width:30%;
+}
+:host /deep/ .col-circletype-name{
+    text-align:center;
+    width:70%;
+}

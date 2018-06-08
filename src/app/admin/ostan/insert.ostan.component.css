@@ -1,0 +1,13 @@
+:host /deep/ .col-ostan-code{
+    text-align:center;
+}
+.mat-column-ostan_code{
+    max-width:30%;
+}
+:host /deep/ .col-ostan-name{
+    text-align:center;
+    width:70%;
+}
+:host /deep/ .disable-ostan-code{
+    pointer-events:none;
+}

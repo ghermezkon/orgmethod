@@ -1,0 +1,20 @@
+:host /deep/ .col-branch_code{
+    text-align:center;
+    width:10%;
+}
+:host /deep/ .col-branch_name{
+    text-align:center;
+    width:40%;
+}
+:host /deep/ .col-branch_degree{
+    text-align:center;
+    width:15%;
+}
+:host /deep/ .col-branch_type{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-city_name{
+    text-align:center;
+    width:30%;
+}

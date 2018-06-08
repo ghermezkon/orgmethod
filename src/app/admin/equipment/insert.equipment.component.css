@@ -1,0 +1,10 @@
+:host /deep/ .col-equipment-code{
+    text-align:center;
+}
+.mat-column-equipment_code{
+    max-width:30%;
+}
+:host /deep/ .col-equipment-name{
+    text-align:center;
+    width:70%;
+}

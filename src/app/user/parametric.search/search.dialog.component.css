@@ -1,0 +1,8 @@
+:host /deep/ .col-position{
+    text-align:center;
+    width:10%;
+}
+:host /deep/ .col-desc_fa{
+    text-align:center;
+    width:90%;
+}

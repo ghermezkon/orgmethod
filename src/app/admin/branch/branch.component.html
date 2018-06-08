@@ -1,0 +1,25 @@
+<div class="ui container" style="padding:10px;">
+  <div class="ui top attached inverted teal segment" style="border:none;">
+    <h2 class="ui header">
+      <i class="phone icon"></i>
+      <div class="content">
+        مشخصات شعب
+        <div class="sub header">تعریف مشخصات شعب، ویرایش اطلاعات و سایر موارد</div>
+      </div>
+    </h2>
+  </div>
+  <div class="ui attached segment" style="padding-right:25px;">
+    <mat-tab-group (selectedTabChange)="tabChange($event)">
+      <mat-tab label="تعریف شعبه">
+        <insert-branch-com></insert-branch-com>
+      </mat-tab>
+      <mat-tab label="مشخصات ملکی" *ngIf="flag_show_branch_amlak_tab">
+        <branch-amlak-com></branch-amlak-com>
+      </mat-tab>
+      <mat-tab label="دوایر و کادر زیر مجموعه" *ngIf="flag_show_branch_circle_tab">
+        <branch-circle-com></branch-circle-com>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="ui bottom attached segment"></div>
+</div>

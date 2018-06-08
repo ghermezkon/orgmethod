@@ -1,0 +1,63 @@
+<div class="ui container" style="padding:10px;">
+    <div class="ui top attached inverted teal segment" style="border:none;">
+        <h2 class="ui header">
+            <i class="phone icon"></i>
+            <div class="content">
+                لیست شعب
+                <div class="sub header">لیست شعب یافت شده</div>
+            </div>
+        </h2>
+    </div>
+    <div class="ui attached segment" style="padding-right:25px;">
+            <div class="mat-elevation-z4">
+                    <div class="filter-header">
+                        <mat-form-field style="width:100%;">
+                            <input #inputFilter matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <mat-table #datagrid [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="select">
+                            <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                            <mat-cell class="col-select" *matCellDef="let row">
+                                <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                </mat-checkbox>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="branch_code">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> کد شعبه </mat-header-cell>
+                            <mat-cell class="col-branch_code" *matCellDef="let element"> {{element.branch_code}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="branch_name">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> نام شعبه </mat-header-cell>
+                            <mat-cell class="col-branch_name" *matCellDef="let element"> {{element.branch_name}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="branch_degree">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> درجه شعبه </mat-header-cell>
+                            <mat-cell class="col-branch_degree" *matCellDef="let element"> {{element.branch_degree}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="branch_type">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> نوع واحد </mat-header-cell>
+                            <mat-cell class="col-branch_type" *matCellDef="let element"> {{element.branch_type}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="ostan_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> استان </mat-header-cell>
+                                <mat-cell class="col-ostan_name" *matCellDef="let element"> {{element.ostan.ostan_name}} </mat-cell>
+                            </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>                        
+                        <ng-container matColumnDef="city_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> شهر </mat-header-cell>
+                                <mat-cell class="col-city_name" *matCellDef="let element"> {{element.city.city_name}} </mat-cell>
+                            </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" 
+                            [ngClass]="{'row-select': selectedRowIndex == row.branch_code}" 
+                            (click)="selectRow(row)"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                    </mat-paginator>
+                </div>
+    </div>
+</div>

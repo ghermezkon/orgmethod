@@ -1,0 +1,132 @@
+<div class="ui container" style="overflow:hidden;">
+    <form novalidate [formGroup]="cityForm">
+        <div class="ui stackable grid container" style="padding-top:10px;">
+            <div class="row" style="padding-bottom:5px;">
+                <div class="six wide column">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column" formGroupName="ostan">
+                            <mat-form-field style="width:200px;">
+                                <input matInput placeholder="استان مربوطه" aria-label="استان مربوطه" [matAutocomplete]="autoOstan" formControlName="ostan_name"
+                                    required>
+                                <mat-autocomplete #autoOstan="matAutocomplete" (optionSelected)="ostan_select($event)">
+                                    <mat-option *ngFor="let o of ostan_list_observ | async" [value]="o.ostan_name">
+                                        {{o.ostan_name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:100px;">
+                                <input matInput="matInput" formControlName="city_code" placeholder="کد شهر" style="text-align:center;" required>
+                                <mat-error align="right" *ngIf="cityForm.get('city_code').invalid">{{getErrorMessage(cityForm.get('city_code'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:200px;">
+                                <input matInput="matInput" formControlName="city_name" placeholder="نام شهر" style="text-align:right;" required>
+                                <mat-error align="right" *ngIf="cityForm.get('city_name').invalid">{{getErrorMessage(cityForm.get('city_name'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:200px;">
+                                <input matInput="matInput" formControlName="country_code" placeholder="کد تقسیمات کشوری" style="text-align:center;">
+                                <mat-error align="right" *ngIf="cityForm.get('country_code').invalid">{{getErrorMessage(cityForm.get('country_code'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:200px;">
+                                <mat-select placeholder="نوع تقسیمات کشوری" formControlName="city_type" required>
+                                    <mat-option>--</mat-option>
+                                    <mat-option *ngFor="let city_type of city_type_list" [value]="city_type">
+                                        {{ city_type }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-checkbox formControlName="markaz_ostan">مرکز استان</mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-checkbox formControlName="markaz_city">مرکز شهرستان</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="ten wide column">
+                    <div class="mat-elevation-z8">
+                        <div class="filter-header">
+                            <mat-form-field style="width:100%;">
+                                <input #inputFilter matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <mat-table #datagrid [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                <mat-cell class="col-select" *matCellDef="let row">
+                                    <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="city_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد شهر </mat-header-cell>
+                                <mat-cell class="col-city-code" *matCellDef="let element"> {{element.city_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="city_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام شهر </mat-header-cell>
+                                <mat-cell class="col-city-name" *matCellDef="let element"> {{element.city_name}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="country_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>کد.ت.کشوری</mat-header-cell>
+                                <mat-cell class="col-country-code" *matCellDef="let element"> {{element.country_code}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="city_type">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>نوع.ت.کشوری</mat-header-cell>
+                                <mat-cell class="col-city-type" *matCellDef="let element"> {{element.city_type}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'row-select': selectedRowIndex == row.city_code}" (click)="selectRow(row)"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-bottom:0px;">
+                <div class="wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;">
+                <div class="wide left aligned column">
+                    <a class="ui teal tag label">{{date_message}}</a>
+                    <button mat-raised-button ripple color="accent" *ngIf="state_save" [disabled]="!cityForm.valid" (click)="save_city(cityForm.value)"
+                        type="button">ذخیره اطلاعات</button>
+                    <button mat-raised-button ripple color="primary" *ngIf="!state_save" [disabled]="!cityForm.valid" (click)="update_city(cityForm.value)"
+                        type="button">ویرایش اطلاعات</button>
+                    <button mat-icon-button ripple color="primary" type="button" title="Excel" (click)="export()">
+                        <i class="fa fa-download fa-lg"></i>
+                    </button>
+                    <button mat-icon-button ripple color="primary" type="reset" (click)="resetForm()" title="پاک کردن صفحه">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

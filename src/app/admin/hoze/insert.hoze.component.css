@@ -1,0 +1,17 @@
+:host /deep/ .col-hoze-code{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-hoze-name{
+    text-align:center;
+    width: 30%;
+}
+:host /deep/ .col-hoze-code-posti{
+    text-align:center;
+    width:20%;
+}
+:host /deep/ .col-hoze-email{
+    text-align:center;
+    font-size:11px !important;
+    width:20%;
+}

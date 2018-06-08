@@ -1,0 +1,105 @@
+<div class="ui container" style="overflow:hidden;">
+    <div class="ui stackable grid container" style="padding-top:10px;">
+        <div class="row" style="padding-bottom:5px;">
+            <div class="six wide column">
+                <div class="ui grid">
+                    <div class="eight wide column">
+                        <mat-form-field style="width:120px;">
+                            <input matInput [formControl]="dep_code" autocomplete="off" placeholder="کد اداره امور" style="text-align:center;" maxlength="4"
+                                (blur)="check_department($event)" required (keydown)="check_department($event)">
+                            <mat-error align="right" *ngIf="dep_code.invalid">{{getErrorMessage(dep_code)}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="eight wide column">
+                        <button mat-raised-button ripple color="accent" *ngIf="create_document" (click)="create_new_document()" type="button">{{create_button_text}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ten wide column">
+                <div class="mat-elevation-z4" *ngIf="dep_code.valid && department && !create_document">
+                    <div class="ui internally celled grid">
+                        <div class="row">
+                            <div class="five wide center aligned column" style="font-weight:bold;">
+                                {{department.dep_name}}
+                            </div>
+                            <div class="three wide column">
+                            </div>
+                            <div class="eight wide left aligned column">
+                                <span>تاریخ حجم کار: </span>
+                                <span style="color:red;">
+                                    <b>{{mah_date_int}}</b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-top:0px;padding-bottom:0px;">
+            <div class="wide column">
+                <div class="ui divider"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="wide column">
+                <div class="ui grid" *ngIf="!create_document && department">
+                    <div class="three wide column">
+                        <input type="file" id="importFile" (change)="fileOnChange($event)" #importFile accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        />
+                    </div>
+                    <div class="thirteen wide left aligned column">
+                        <button mat-raised-button ripple color="accent" [disabled]="!flagInputFile || flagUpdateFile" (click)="load_file()" type="button">خواندن فایل</button>
+                        <button mat-raised-button ripple color="primary" [disabled]="!flagUpdateFile" (click)="save_file()" type="button">ذخیره اطلاعات</button>
+                        <button mat-raised-button ripple color="primary" [disabled]="!flagUpdateFile" (click)="getTable()" type="button">فراخوانی</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="wide column">
+                <mat-progress-bar mode="indeterminate" *ngIf="show_progress"></mat-progress-bar>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom:0px;" *ngIf="flagUpdateFile">
+            <div class="wide column">
+                <div class="ui divider"></div>
+            </div>
+        </div>
+        <div class="row" style="padding-top:0px;" *ngIf="fldcode_data">
+            <div class="two wide column"></div>
+            <div class="thirteen wide column">
+                <table class="table-diagram">
+                    <tr>
+                        <th class="th-diagram">#</th>
+                        <th class="th-diagram">جدول 1</th>
+                        <th colspan="4" class="th-diagram">تعداد اسناد طی سال</th>
+                    </tr>
+                    <ng-container *ngFor="let i of fldcode_data; let idx = index;let isOdd=odd;">
+                        <tr *ngIf="idx == 3" style="font-weight:bold;text-align:center;background-color:#eaeaea;">
+                            <td class="td-diagram center th-header-diagram">#</td>
+                            <td class="td-diagram">شرح</td>
+                            <td class="td-diagram center" style="width:12%;">نقدی متمرکز</td>
+                            <td class="td-diagram center" style="width:12%;">نقدی سیبا</td>
+                            <td class="td-diagram center" style="width:12%;">انتقالی غیرمتمرکز</td>
+                            <td class="td-diagram center" style="width:12%;">انتقالی سیبا</td>
+                        </tr>
+                        <tr [class.oddRow]="isOdd">
+                            <td class="td-diagram center th-header-diagram">{{idx+1}}</td>
+
+                            <td [ngClass]="{'td-diagram': true, 'td-sum-diagram': i.sum_flag}">{{i.row_name}}</td>
+                            <td [ngClass]="{'td-diagram':true, 'center':true, 'td-sum-diagram': i.sum_flag}" style="width:10%;" colspan="4" *ngIf="i.itemList.length == 1">{{i.itemList[0] | number}}</td>
+
+                            <ng-container *ngIf="i.itemList.length > 1">
+                                <td [ngClass]="{'td-diagram': true, 'center': true,'td-sum-diagram': i.sum_flag}" style="width:12%;">{{i.itemList[0] | number}}</td>
+                                <td [ngClass]="{'td-diagram': true, 'center': true,'td-sum-diagram': i.sum_flag}" style="width:12%;">{{i.itemList[1] | number}}</td>
+                                <td [ngClass]="{'td-diagram': true, 'center': true,'td-sum-diagram': i.sum_flag}" style="width:12%;">{{i.itemList[2] | number}}</td>
+                                <td [ngClass]="{'td-diagram': true, 'center': true,'td-sum-diagram': i.sum_flag}" style="width:12%;">{{i.itemList[3] | number}}</td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+            <div class="one wide column"></div>
+        </div>
+    </div>
+</div>

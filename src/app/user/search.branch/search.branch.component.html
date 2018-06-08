@@ -1,0 +1,161 @@
+<div class="ui container" style="padding:10px;">
+    <div class="ui top attached inverted teal segment" style="border:none;">
+        <h2 class="ui header">
+            <i class="phone icon"></i>
+            <div class="content">
+                <div class="ui grid container" style="font-size:20px;">
+                    <div class="five wide column">شعبه: {{branch.branch_name}}</div>
+                    <div class="three wide column">کد شعبه: {{branch.branch_code}}</div>
+                    <div class="three wide column">نوع واحد : {{branch.branch_type}}</div>
+                    <div class="three wide column">درجه شعبه: {{branch.branch_degree}}</div>
+                </div>
+                <div class="sub header">
+                    <div class="ui grid container">
+                        <div class="five wide column">آدرس : {{branch.branch_address}}</div>
+                        <div class="three wide column">کد پستی : {{branch.branch_code_posti}}</div>
+                        <div class="three wide column">ایمیل : {{branch.branch_email}}</div>
+                    </div>
+                </div>
+            </div>
+        </h2>
+    </div>
+    <div class="ui attached segment">
+        <div class="ui grid container">
+            <div class="row">
+                <div class="eight wide column">
+                    <div class="ui segments">
+                        <div class="ui grey inverted segment">اطلاعات اصلی شعبه</div>
+                        <div class="ui bottom attached segment">
+                            <div class="ui grid container">
+                                <div class="six wide column" style="font-weight:bold">نوع خدمات: </div>
+                                <div class="ten wide column">{{branch.khadamat_type}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;">ارائه خدمات به: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.organ_type}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;"> محدوده فعالیت شعبه: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.activity_type}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;">نام اداره امور شعب: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.department.dep_name}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;">نام حوزه: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.hoze.hoze_name}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;">نام استان: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.ostan.ostan_name}}</div>
+
+                                <div class="six wide column" style="font-weight:bold;padding-top:0;">نام شهر: </div>
+                                <div class="ten wide column" style="padding-top:0;">{{branch.city.city_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eight wide column">
+                    <div class="row">
+                        <div class="ui segments" *ngIf="branch.amlak">
+                            <div class="ui orange inverted segment" style="border:none">مشخصات ملک شعبه</div>
+                            <div class="ui attached bottom segment">
+                                <div class="ui grid container">
+                                    <div class="five wide column" style="font-weight:bold">وضعیت محل شعبه: </div>
+                                    <div class="eleven wide column">{{branch.amlak.melk_type.name}}</div>
+
+                                    <div class="five wide column" style="font-weight:bold;padding-top:0;" *ngIf="branch.amlak.aztaraf != null">واگذاری از طرف: </div>
+                                    <div class="eleven wide column" *ngIf="branch.amlak.aztaraf != null" style="padding-top:0;">{{branch.amlak.aztaraf}}</div>
+
+                                    <div class="five wide column" style="font-weight:bold;padding-top:0;" *ngIf="branch.amlak.moghofe != null">موقوفه از طرف: </div>
+                                    <div class="eleven wide column" *ngIf="branch.amlak.moghofe != null" style="padding-top:0;">{{branch.amlak.moghofe}}</div>
+
+                                    <div class="four wide column" style="font-weight:bold;padding-top:0;">مساحت شعبه: </div>
+                                    <div class="one wide column" style="padding-top:0;">{{branch.amlak.masahat}}</div>
+                                    <div class="three wide column" style="font-weight:bold;text-align:left;padding-top:0;">زیربنا: </div>
+                                    <div class="one wide column" style="padding-top:0;">{{branch.amlak.zirbana}}</div>
+                                    <div class="five wide column" style="font-weight:bold;text-align:left;padding-top:0;">تعداد طبقات: </div>
+                                    <div class="two wide column" style="padding-top:0;">{{branch.amlak.floor_number}}</div>
+                                    <div class="sixteen wide column" style="padding-top:0;">
+                                        <div class="ui divider" style="padding-top:0;padding-bottom:0px;"></div>
+                                    </div>
+                                    <div class="six wide column" style="font-weight:bold;padding-top:0;">
+                                        <mat-checkbox disabled [checked]="branch.amlak.khazane_boton">خزانه بتن آرمه دارد</mat-checkbox>
+                                    </div>
+                                    <div class="six wide column" style="font-weight:bold;padding-top:0;">
+                                        <mat-checkbox disabled [checked]="branch.amlak.khazane_boton_full">خزانه صندوق دو جداره بزرگ دارد</mat-checkbox>
+                                    </div>
+                                    <div class="six wide column" style="font-weight:bold;padding-top:0;">
+                                        <mat-checkbox disabled [checked]="branch.amlak.solider">مامور مسلح دارد</mat-checkbox>
+                                    </div>
+                                    <div class="six wide column" style="font-weight:bold;padding-top:0;">
+                                        <mat-checkbox disabled [checked]="branch.amlak.camera">دوربین مدار بسته دارد</mat-checkbox>
+                                    </div>
+                                    <div class="six wide column" style="font-weight:bold;padding-top:0;">
+                                        <mat-checkbox disabled [checked]="branch.amlak.loud_system">سیستم آژیر دارد</mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-bottom:0px;">
+                <div class="sixteen wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="eight wide column">
+                    <div class="ui teal segment">
+                        <mat-table #datagridCircle [dataSource]="dataSourceCircle" matSort>
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                <mat-cell class="col-select" *matCellDef="let row">
+                                    <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="circletype_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد دایره </mat-header-cell>
+                                <mat-cell class="col-circletype_code" *matCellDef="let element"> {{element.circletype_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="circletype_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام دایره </mat-header-cell>
+                                <mat-cell class="col-circletype_name" *matCellDef="let element"> {{element.circletype_name}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)" [ngClass]="{'row-select': selectedRowIndex == row.circletype_code}"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginatorCircle [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div class="eight wide column">
+                    <div class="ui teal segment" *ngIf="dataSourcePost.data.length > 0">
+                        <mat-table #datagridPost [dataSource]="dataSourcePost" matSort>
+                            <ng-container matColumnDef="posttype.posttype_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد پست سازمانی </mat-header-cell>
+                                <mat-cell class="col-posttype_code" *matCellDef="let element"> {{element.posttype.posttype_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="posttype.posttype_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام پست سازمانی </mat-header-cell>
+                                <mat-cell class="col-posttype_name" *matCellDef="let element"> {{element.posttype.posttype_name}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="personel_number">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> تعداد پرسنل </mat-header-cell>
+                                <mat-cell class="col-personel_number" *matCellDef="let element"> {{element.personel_number}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumnsPost"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumnsPost;" [ngClass]="{'row-select': selectedRowIndex == row.posttype_code}"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginatorPost [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

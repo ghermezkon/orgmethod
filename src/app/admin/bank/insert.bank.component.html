@@ -1,0 +1,101 @@
+<div class="ui container" style="overflow:hidden;">
+  <form novalidate [formGroup]="bankForm">
+    <div class="ui stackable grid container" style="padding-top:10px;">
+      <div class="row" style="padding-bottom:5px;">
+        <div class="wide column">
+          <mat-form-field style="width:150px;">
+            <input matInput="matInput" formControlName="shomare_eghtesadi" placeholder="شماره اقتصادی بانک" style="text-align:center;direction:ltr;"
+              maxlength="12" required autocomplete="off">
+            <mat-error align="right" *ngIf="bankForm.get('shomare_eghtesadi').invalid">{{getErrorMessage(bankForm.get('shomare_eghtesadi'))}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top:0px;padding-bottom:5px;">
+        <div class="three wide column">
+          <mat-form-field style="width:150px;">
+            <input matInput="matInput" formControlName="shenase_meli" placeholder="شناسه ملی بانک" style="text-align:center;direction:ltr;"
+              maxlength="10" required autocomplete="off">
+            <mat-error align="right" *ngIf="bankForm.get('shenase_meli').invalid">{{getErrorMessage(bankForm.get('shenase_meli'))}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="three wide center aligned column">
+          <mat-form-field style="width:120px;">
+            <input matInput="matInput" formControlName="shomare_sabt" placeholder="شماره ثبت بانک" style="text-align:center;direction:ltr;"
+              required autocomplete="off">
+            <mat-error align="right" *ngIf="bankForm.get('shomare_sabt').invalid">{{getErrorMessage(bankForm.get('shomare_sabt'))}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="three wide center aligned column">
+          <mat-form-field style="width:150px;">
+            <input matInput="matInput" formControlName="date_sabt" placeholder="تاریخ ثبت بانک" style="text-align:center;direction:ltr;" [textMask]="{mask: _mask_date}"
+              required autocomplete="off">
+            <mat-hint align="end">مثال: 1360/11/22 </mat-hint>
+            <mat-error align="right" *ngIf="bankForm.get('date_sabt').invalid">{{getErrorMessage(bankForm.get('date_sabt'))}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top:0px;padding-bottom:5px;">
+        <div class="wide column">
+          <mat-form-field style="width:200px;">
+            <input matInput="matInput" formControlName="bank_name" placeholder="عنوان بانک" required autocomplete="off">
+            <mat-error align="right" *ngIf="bankForm.get('bank_name').invalid">{{getErrorMessage(bankForm.get('bank_name'))}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top:0px;padding-bottom:0px;">
+        <div class="wide column">
+          <mat-form-field style="width:200px;">
+            <input matInput="matInput" formControlName="manager_name" placeholder="نام مدیرعامل" autocomplete="off">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="wide center aligned column" style="direction:rtl;">
+          <div class="ui label" style="font-weight:normal;">
+            شماره و تاریخ آگهی آخرین تغییرات بانک مندرج درصفحه
+          </div>
+
+          <input formControlName="shomare_safhe" style="text-align:center;width:40px;font-weight:bold;" type="number">
+
+          <div class="ui label" style="font-weight:normal;">روزنامه رسمی شماره:</div>
+
+          <input formControlName="shomare_roznameh" style="text-align:center;width:80px;font-weight:bold;" type="number">
+
+          <div class="ui label" style="font-weight:normal;">مورخ</div>
+
+          <input formControlName="date_roznameh" size="9" style="text-align:center;font-weight:bold;" [textMask]="{mask: _mask_date}">
+
+          <div class="ui label" style="font-weight:normal;">براساس نامه شماره</div>
+          <input formControlName="shomare_nameh" style="text-align:center;font-weight:bold;" size="7">
+
+          <div class="ui label" style="font-weight:normal;">مورخ</div>
+
+          <input formControlName="date_nameh" size="9" style="text-align:center;font-weight:bold;" [textMask]="{mask: _mask_date}">
+
+          <div class="ui label" style="font-weight:normal;">اداره کل حقوقی</div>
+        </div>
+      </div>
+      <div class="row" style="padding-top:0px;padding-bottom:0px;">
+        <div class="wide column">
+          <div class="ui divider" style="padding-bottom:0px;"></div>
+        </div>
+      </div>
+      <div class="row" style="padding-top:0px;">
+        <div class="wide left aligned column">
+          <a class="ui teal tag label">{{date_message}}</a>            
+          <button mat-raised-button ripple color="accent" *ngIf="state_save" [disabled]="!bankForm.valid" (click)="save_bank(bankForm.value)" type="button" >ذخیره اطلاعات</button>
+          <button mat-raised-button ripple color="primary" *ngIf="!state_save" [disabled]="!bankForm.valid" (click)="update_bank(bankForm.value)" type="button" >ویرایش اطلاعات</button>
+          <button mat-icon-button ripple color="primary" type="reset" (click)="resetForm()" [disabled]="!state_save">
+            <i class="fa fa-refresh fa-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

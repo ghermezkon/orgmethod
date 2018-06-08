@@ -1,0 +1,130 @@
+<div class="ui container" style="overflow:hidden;">
+    <form novalidate [formGroup]="dataForm">
+        <div class="ui stackable grid container" style="padding-top:10px;">
+            <div class="row" style="padding-bottom:5px;">
+                <div class="six wide column">
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column" formGroupName="department">
+                            <mat-form-field style="width:200px;">
+                                <input matInput placeholder="امور شعب مربوطه" aria-label="امور شعب مربوطه" 
+                                    [matAutocomplete]="autoDepartment" formControlName="dep_name"
+                                    required>
+                                <mat-autocomplete #autoDepartment="matAutocomplete" (optionSelected)="department_select($event)">
+                                    <mat-option *ngFor="let o of dep_list_obser | async" [value]="o.dep_name">
+                                        {{o.dep_name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:100px;">
+                                <input matInput="matInput" formControlName="hoze_code" placeholder="کد حوزه" autocomplete="off" style="text-align:center;" required>
+                                <mat-error align="right" *ngIf="dataForm.get('hoze_code').invalid">{{getErrorMessage(dataForm.get('hoze_code'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:200px;">
+                                <input matInput="matInput" formControlName="hoze_name" placeholder="نام حوزه"  autocomplete="off" style="text-align:right;" required>
+                                <mat-error align="right" *ngIf="dataForm.get('hoze_name').invalid">{{getErrorMessage(dataForm.get('hoze_name'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:150px;">
+                                <input matInput formControlName="hoze_code_posti" autocomplete="off" placeholder="کد پستی" style="text-align:center;" maxlength="10">
+                                <mat-error align="right" *ngIf="dataForm.get('hoze_code_posti').invalid">{{getErrorMessage(dataForm.get('hoze_code_posti'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:200px;">
+                                <input matInput formControlName="hoze_email" autocomplete="off" placeholder="آدرس ایمیل" style="text-align:left;direction:ltr;">
+                                <mat-error align="right" *ngIf="dataForm.get('hoze_email').invalid">{{getErrorMessage(dataForm.get('hoze_email'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom:5px;">
+                        <div class="wide column">
+                            <mat-form-field style="width:100%;">
+                                <textarea matInput formControlName="hoze_address" autocomplete="off" placeholder="آدرس پستی" style="text-align:right;"></textarea>
+                                <mat-error align="right" *ngIf="dataForm.get('hoze_address').invalid">{{getErrorMessage(dataForm.get('hoze_address'))}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ten wide column">
+                    <div class="mat-elevation-z8">
+                        <div class="filter-header">
+                            <mat-form-field style="width:100%;">
+                                <input #inputFilter matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <mat-table #datagrid [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
+                                <mat-cell class="col-select" *matCellDef="let row">
+                                    <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" 
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="hoze_code">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> کد حوزه </mat-header-cell>
+                                <mat-cell class="col-hoze-code" *matCellDef="let element"> {{element.hoze_code}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="hoze_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> نام حوزه </mat-header-cell>
+                                <mat-cell class="col-hoze-name" *matCellDef="let element"> {{element.hoze_name}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="hoze_code_posti">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>کد پستی</mat-header-cell>
+                                <mat-cell class="col-hoze-code-posti" *matCellDef="let element"> {{element.hoze_code_posti}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="hoze_email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>ایمیل</mat-header-cell>
+                                <mat-cell class="col-hoze-email" *matCellDef="let element"> {{element.hoze_email}} </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" 
+                                [ngClass]="{'row-select': selectedRowIndex == row.hoze_code}" (click)="selectRow(row)"></mat-row>
+                        </mat-table>
+                        <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;padding-bottom:0px;">
+                <div class="wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:0px;">
+                <div class="wide left aligned column">
+                    <a class="ui teal tag label">{{date_message}}</a>
+                    <button mat-raised-button ripple color="accent" *ngIf="state_save" [disabled]="!dataForm.valid" (click)="save_hoze(dataForm.value)"
+                        type="button">ذخیره اطلاعات</button>
+                    <button mat-raised-button ripple color="primary" *ngIf="!state_save" [disabled]="!dataForm.valid" (click)="update_hoze(dataForm.value)"
+                        type="button">ویرایش اطلاعات</button>
+                    <button mat-icon-button ripple color="primary" type="button" title="Excel" (click)="export()">
+                        <i class="fa fa-download fa-lg"></i>
+                    </button>
+                    <button mat-icon-button ripple color="primary" type="reset" (click)="resetForm()" title="پاک کردن صفحه">
+                        <i class="fa fa-refresh fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
