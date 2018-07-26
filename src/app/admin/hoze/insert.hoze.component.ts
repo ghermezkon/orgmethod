@@ -6,15 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatSort } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { GlobalHttpService } from '../http.service/global.http.service';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DepartmentHttpService } from '../http.service/http.dep.service';
 import { Department } from '../classes/index';
+import { Observable } from 'rxjs';
+import { map, take, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'insert-hoze-com',
@@ -57,7 +55,7 @@ export class InsertHozeComponent {
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_department'])).take(1).subscribe((org_department) => {
+            map((data) => data['org_department']),take(1)).subscribe((org_department) => {
                 if (org_department.length > 0) {
                     this.resetForm();
                     this.dep_list = org_department;
@@ -121,7 +119,7 @@ export class InsertHozeComponent {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http_dep.save_hoze(data).take(1).subscribe((json: any) => {
+            this._http_dep.save_hoze(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
                     this.resetForm();
@@ -155,7 +153,7 @@ export class InsertHozeComponent {
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http_dep.update_hoze(data).take(1).subscribe((json: any) => {
+            this._http_dep.update_hoze(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1 || json.n >= 1) {
                     this._msg.getMessage('okUpdate');
 
@@ -174,7 +172,7 @@ export class InsertHozeComponent {
         let dep = _.find(this.dep_list, { dep_name: event.option.value }, function (o) { return o; });
         this.dataForm.get('department').patchValue(dep);
 
-        this._http_dep.get_hoze_by_dep_name(event.option.value).take(1).subscribe((res: any) => {
+        this._http_dep.get_hoze_by_dep_name(event.option.value).pipe(take(1)).subscribe((res: any) => {
             if (res.length > 0) {
                 this.data_list = res;
                 this.dataSource.data = this.data_list;

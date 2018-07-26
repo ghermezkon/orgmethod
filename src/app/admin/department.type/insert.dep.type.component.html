@@ -32,8 +32,8 @@
                         </div>
                         <mat-table #datagrid [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="select">
-                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
-                                <mat-cell class="col-select" *matCellDef="let row">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
                                     </mat-checkbox>
                                 </mat-cell>
@@ -41,12 +41,12 @@
 
                             <ng-container matColumnDef="deptype_code">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> کد نوع واحد </mat-header-cell>
-                                <mat-cell class="col-deptype-code" *matCellDef="let element"> {{element.deptype_code}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.deptype_code}} </mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="deptype_name">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> عنوان نوع واحد </mat-header-cell>
-                                <mat-cell class="col-deptype-name" *matCellDef="let element"> {{element.deptype_name}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.deptype_name}} </mat-cell>
                             </ng-container>
 
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

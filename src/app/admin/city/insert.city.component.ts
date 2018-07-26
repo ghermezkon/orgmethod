@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { FormGroup, FormControl, FormBuilder, AbstractControlDirective, AbstractControl, Validators } from '@angular/forms';
 import { MessageService } from '../../service/message.service';
 
@@ -6,22 +6,20 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PersianCalendarService } from '../../service/persian.calendar.service';
 import { GlobalHttpService } from '../http.service/global.http.service';
 import { ActivatedRoute } from '@angular/router';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Ostan } from '../classes/index';
 import { SelectionModel } from '@angular/cdk/collections';
 
-import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
+import { map, take, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'insert-city-com',
     templateUrl: 'insert.city.component.html',
     styleUrls: ['insert.city.component.css']
 })
-export class InsertCityComponent implements OnInit {
+export class InsertCityComponent {
     //-------------------------------------------------------------------------
     cityForm: FormGroup;
     today: Date = new Date();
@@ -58,7 +56,7 @@ export class InsertCityComponent implements OnInit {
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_ostan'])).take(1).subscribe((org_ostan) => {
+            map((data) => data['org_ostan'])).pipe(take(1)).subscribe((org_ostan) => {
                 if (org_ostan.length > 0) {
                     this.ostan_list = org_ostan;
                 }
@@ -124,7 +122,7 @@ export class InsertCityComponent implements OnInit {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http.save_city(data).take(1).subscribe((json: any) => {
+            this._http.save_city(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -166,7 +164,7 @@ export class InsertCityComponent implements OnInit {
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http.update_city(data).take(1).subscribe((json: any) => {
+            this._http.update_city(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
 

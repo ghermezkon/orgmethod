@@ -2,12 +2,10 @@ import { Component } from "@angular/core";
 import { MessageService } from "../../service/message.service";
 import { DepartmentHttpService } from "../../admin/http.service/http.dep.service";
 import { FormControl, Validators, AbstractControlDirective, AbstractControl } from "@angular/forms";
-import { Subject } from "rxjs";
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
-
 import * as _ from 'lodash';
 import * as alasql from 'alasql';
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 //---------------------------------------------------------------
 class posttype {
     posttype_code: number;
@@ -53,7 +51,7 @@ export class HozeDiagramComponent {
     }
     //---------------------------------------------------------------
     get_hoze() {
-        this._http_dep.get_hoze_by_dep_code(this.dep_code.value).take(1).takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.get_hoze_by_dep_code(this.dep_code.value).pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             if (res.length > 0) this.hoze_list = res;
             else {
                 this.hoze_list = [];
@@ -69,7 +67,7 @@ export class HozeDiagramComponent {
         var column_class: any = [];
         var hoze_header: any[] = [];
 
-        this._http_dep.get_branch_by_hoze_code(dep_code, hoze_code).take(1).takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.get_branch_by_hoze_code(dep_code, hoze_code).pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             if (res.length > 0) {
                 this.hoze_header = res[0];
 

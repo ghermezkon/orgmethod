@@ -1,31 +1,37 @@
-:host /deep/ .col-circletype_code{
-    text-align:center;
+.mat-column-circletype_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     max-width:20%;
 }
-.mat-column-circletype_code{
-    max-width:30%;
-}
-.mat-column- {
-    max-width:10%;
-}
-:host /deep/ .col-circletype_name{
-    text-align:center;
+.mat-column-circletype_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:40%;
 }
-:host /deep/ .col-operate{
-    text-align:center;
+.mat-column-operate{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:10%;
 }
 /*---------------------------------*/
-:host /deep/ .col-posttype_code{
-    text-align:center;
+.mat-column-posttype-posttype_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:20%;
 }
-:host /deep/ .col-posttype_name{
-    text-align:center;
+.mat-column-posttype-posttype_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:40%;
 }
-:host /deep/ .col-personel_number{
-    text-align:center;
+.mat-column-personel_number{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:20%;
 }

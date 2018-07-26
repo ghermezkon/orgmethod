@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs/Observable";
-import { ReplaySubject } from "rxjs";
 
 @Injectable()
 export class GlobalHttpService {

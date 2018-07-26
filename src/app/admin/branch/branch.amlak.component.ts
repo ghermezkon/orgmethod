@@ -4,10 +4,11 @@ import { MessageService } from '../../service/message.service';
 import { DepartmentHttpService } from '../http.service/http.dep.service';
 import { PersianCalendarService } from '../../service/persian.calendar.service';
 import { melkType } from '../classes/index';
-import * as _ from 'lodash';
-
 import { FlagService } from '../../service/flag.service';
 import { Subject } from 'rxjs';
+import * as _ from 'lodash';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
     selector: 'branch-amlak-com',
     templateUrl: './branch.amlak.component.html'
@@ -33,7 +34,7 @@ export class BranchAmlakComponent {
         this.createForm();
         //==========================================================
         this.melk_type_list = this._msg.getMelkType();
-        this._http_dep.getBranchSource().takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.getBranchSource().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             this.branch = res;
             if (this.branch.amlak) {
                 this.melkForm.patchValue(res.amlak);
@@ -72,7 +73,7 @@ export class BranchAmlakComponent {
         this.branch.amlak = this.melkForm.value;
         this.branch.last_update_short = this.farsiDate_short;
         this.branch.last_update_long = this.farsiDate_long;
-        this._http_dep.update_branch(this.branch).takeUntil(this.complete$).subscribe((json: any) => {
+        this._http_dep.update_branch(this.branch).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
             if (json.nModified >= 1) {
                 this._msg.getMessage('okUpdate');
             } else {
@@ -86,6 +87,7 @@ export class BranchAmlakComponent {
         control = <AbstractControl>value;
         return this._msg.getError(control.errors);
     }
+    //-------------------------------------------------------------------------
     ngOnDestroy() {
         this.complete$.next(true);
         this.complete$.complete();

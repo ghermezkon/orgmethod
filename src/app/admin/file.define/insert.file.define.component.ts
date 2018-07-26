@@ -4,16 +4,13 @@ import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { ActivatedRoute } from "@angular/router";
 import { BranchWorkHttpService } from "../http.service/http.branchwork.service";
-import { Observable } from "rxjs/Observable";
 import { DepartmentHttpService } from "../http.service/http.dep.service";
 import { FormControl, Validators, AbstractControlDirective, AbstractControl } from "@angular/forms";
 
-import { map } from "rxjs/operators";
-import 'rxjs/add/operator/take';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/observable/timer';
+import { map, take } from "rxjs/operators";
 import * as _ from 'lodash';
 import * as xlsx from 'xlsx';
+import { forkJoin } from "rxjs";
 
 export class MahFile {
     public fldcode: number;
@@ -63,7 +60,7 @@ export class InsertFileDefineComponent {
     }
     //-------------------------------------------------------------------------------
     ngOnInit() {
-        this._http.get_current_date().take(1).subscribe((res: any) => {
+        this._http.get_current_date().pipe(take(1)).subscribe((res: any) => {
             this.mah_date = this.persianCalendarService.PersianCalendarShort(new Date(res));
         })
     }
@@ -85,10 +82,10 @@ export class InsertFileDefineComponent {
             let mah_date_int: number;
             mah_date_int = this.mah_date_int = parseInt(String(this.mah_date).substr(0, 6));
             if (this.dep_code.valid) {
-                this._http_dep.get_by_dep_code(this.dep_code.value.trim()).take(1).subscribe((res: any) => {
+                this._http_dep.get_by_dep_code(this.dep_code.value.trim()).pipe(take(1)).subscribe((res: any) => {
                     if (res.length > 0) {
                         this.department = res[0];
-                        this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value).take(1).subscribe((res: any) => {
+                        this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value).pipe(take(1)).subscribe((res: any) => {
                             if (res.length > 0) {
                                 this.branchwork_list = res[0];
                                 this.create_document = false;
@@ -110,7 +107,7 @@ export class InsertFileDefineComponent {
         let branch_list = [];
 
         let new_document = { ...doc };
-        this._http_dep.get_branch_by_dep_code(this.dep_code.value).take(1).subscribe((res: any) => {
+        this._http_dep.get_branch_by_dep_code(this.dep_code.value).pipe(take(1)).subscribe((res: any) => {
             new_document.dep_code = this.dep_code.value;
             _.each(res, (o) => {
                 let mahFile_arr = [];
@@ -142,7 +139,7 @@ export class InsertFileDefineComponent {
             })
             new_document.mah_date = this.mah_date_int;
 
-            this._http_branchwork.save_branchwork_all(new_document).take(1).subscribe((res: any) => {
+            this._http_branchwork.save_branchwork_all(new_document).pipe(take(1)).subscribe((res: any) => {
                 if (res.result.n >= 1) {
                     this.branchwork_list = res.ops[0];
                     this._msg.getMessage('okSave');
@@ -212,7 +209,7 @@ export class InsertFileDefineComponent {
                     self.branchwork_list['items'][branch_index] = branch[0];
                 }
             })
-            this._http_branchwork.update_branchwork_all(this.branchwork_list).take(1).subscribe((res: any) => {
+            this._http_branchwork.update_branchwork_all(this.branchwork_list).pipe(take(1)).subscribe((res: any) => {
                 if (res.nModified >= 1) {
                     this._msg.getMessage('okSave');
                 } else {
@@ -228,7 +225,7 @@ export class InsertFileDefineComponent {
     }
     //-------------------------------------------------------------------------------
     getTable() {
-        Observable.forkJoin([this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value), 
+        forkJoin([this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value), 
             this._http.get_all_tablecode_by_table_id('جدول 1')]).subscribe(res => {
             this.branchwork_list = res[0][0];
             let branch = _.find(_.pick(this.branchwork_list, 'items').items, (p) => {

@@ -5,19 +5,13 @@ import { PersianCalendarService } from '../../service/persian.calendar.service';
 import { MessageService } from '../../service/message.service';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ConfirmDialogComponent } from '../../service/confirm.dialog';
-import { Observable } from 'rxjs/Observable';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators/map';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
 import * as _ from 'lodash';
 import { GlobalHttpService } from '../http.service/global.http.service';
 import { PersonelNumber, CircleType } from '../classes/index';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FlagService } from '../../service/flag.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subject } from 'rxjs';
-import { forEach } from '@angular/router/src/utils/collection';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'circle-dep-com',
@@ -75,10 +69,10 @@ export class CircleDepartmentComponent {
 
             }
         });
-        this._http_dep.getCircleTypeSource().take(1).subscribe((res: any) => {
+        this._http_dep.getCircleTypeSource().pipe(take(1)).subscribe((res: any) => {
             this.circletype_list = res;
         })
-        this._http.get_all_posttype_by_group('both').take(1).subscribe((res: any) => {
+        this._http.get_all_posttype_by_group('both').pipe(take(1)).subscribe((res: any) => {
             this.posttype_list = res;
         })
     }
@@ -101,7 +95,7 @@ export class CircleDepartmentComponent {
             this.dep.last_update_short = this.farsiDate_short;
             this.dep.last_update_long = this.farsiDate_long;
             //------------------------------------------------------------------
-            this._http_dep.update_department(this.dep).takeUntil(this.complete$).subscribe((json: any) => {
+            this._http_dep.update_department(this.dep).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
                     this.dataSourceCircle.data = this.dep.circlelist;
@@ -113,7 +107,7 @@ export class CircleDepartmentComponent {
         }
     }
     deleteCirlce(event) {
-        this._msg.getMessage('confirmDelete').afterClosed().takeUntil(this.complete$).subscribe(res => {
+        this._msg.getMessage('confirmDelete').afterClosed().pipe(takeUntil(this.complete$)).subscribe(res => {
             if (res) {
                 let index = this.dep.circlelist.findIndex(d => d.circletype_code == event.circletype_code);
                 this.dep.circlelist.splice(index, 1);
@@ -122,7 +116,7 @@ export class CircleDepartmentComponent {
                 this.dep.last_update_short = this.farsiDate_short;
                 this.dep.last_update_long = this.farsiDate_long;
                 //------------------------------------------------------------------
-                this._http_dep.update_department(this.dep).takeUntil(this.complete$).subscribe((json: any) => {
+                this._http_dep.update_department(this.dep).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                     if (json.nModified >= 1) {
                         this._msg.getMessage('okUpdate');
                         this.selectedRowIndex = -1;
@@ -162,7 +156,7 @@ export class CircleDepartmentComponent {
 
             this.dep.circlelist[index].personel.push(personel[0]);
 
-            this._http_dep.update_department(this.dep).takeUntil(this.complete$).subscribe((json: any) => {
+            this._http_dep.update_department(this.dep).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
                     this.deleteButtonColor = "warn";
@@ -176,7 +170,7 @@ export class CircleDepartmentComponent {
         this.personel_number.reset();
     }
     deletePost(event) {
-        this._msg.getMessage('confirmDelete').afterClosed().takeUntil(this.complete$).subscribe(res => {
+        this._msg.getMessage('confirmDelete').afterClosed().pipe(takeUntil(this.complete$)).subscribe(res => {
             if (res) {
                 let index_circle = this.dep.circlelist.findIndex(d => d.circletype_code == this.selectedRowIndex);
 
@@ -187,7 +181,7 @@ export class CircleDepartmentComponent {
                 this.dep.last_update_short = this.farsiDate_short;
                 this.dep.last_update_long = this.farsiDate_long;
                 //------------------------------------------------------------------
-                this._http_dep.update_department(this.dep).takeUntil(this.complete$).subscribe((json: any) => {
+                this._http_dep.update_department(this.dep).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                     if (json.nModified >= 1) {
                         this._msg.getMessage('okUpdate');
                     } else {

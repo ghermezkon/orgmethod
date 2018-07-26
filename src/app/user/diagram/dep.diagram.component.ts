@@ -2,12 +2,10 @@ import { Component } from "@angular/core";
 import { FormControl, Validators, AbstractControlDirective, AbstractControl } from "@angular/forms";
 import { MessageService } from "../../service/message.service";
 import { DepartmentHttpService } from "../../admin/http.service/http.dep.service";
-import { Subject } from "rxjs";
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
-
 import * as _ from 'lodash';
 import * as alasql from 'alasql';
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 //----------------------------------------------------------------------------------
 class posttype {
     posttype_code: number;
@@ -53,7 +51,7 @@ export class DepartmentDiagramComponent {
         let row_circlelist: any = [];
         let column_class: any = [];
         let rows: any[] = [];
-        this._http_dep.get_by_dep_code(data).take(1).takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.get_by_dep_code(data).pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             if (res.length > 0) {
                 this.dep_header = res[0];
                 row_circlelist = _.pick(res[0], 'circlelist');

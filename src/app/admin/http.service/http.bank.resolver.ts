@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { GlobalHttpService } from './global.http.service';
 import * as _ from 'lodash';
 import { DepartmentHttpService } from './http.dep.service';
-import { map } from 'rxjs/operators';
 import { BranchWorkHttpService } from './http.branchwork.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class HttpBankResolver implements Resolve<Observable<any>> {

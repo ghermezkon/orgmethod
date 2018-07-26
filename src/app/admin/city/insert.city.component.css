@@ -1,17 +1,25 @@
-:host /deep/ .col-city-code{
-    text-align:center;
-    width:20%;
+.mat-column-city_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    max-width:15%;
 }
-:host /deep/ .col-city-name{
-    text-align:center;
-    width: 40%;
+.mat-column-city_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    min-width:30%;
 }
-:host /deep/ .col-country-code{
-    text-align:center;
-    width:20%;
+.mat-column-country_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    max-width:20%;
 }
-:host /deep/ .col-city-type{
-    text-align:center;
+.mat-column-city_type{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:20%;
     word-wrap: break-word;
 }

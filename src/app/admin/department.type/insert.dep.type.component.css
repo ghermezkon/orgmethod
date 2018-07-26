@@ -1,10 +1,12 @@
-:host /deep/ .col-deptype-code{
-    text-align:center;
-}
 .mat-column-deptype_code{
-    max-width:30%;
+    display:flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    max-width:20% !important;
 }
-:host /deep/ .col-deptype-name{
-    text-align:center;
-    width:70%;
+.mat-column-deptype_name{
+    display:flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width:70% !important;
 }

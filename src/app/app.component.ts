@@ -3,10 +3,10 @@ import { Title } from '@angular/platform-browser';
 import { FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DepartmentHttpService } from './admin/http.service/http.dep.service';
-import 'rxjs/add/operator/take';
 import { MessageService } from './service/message.service';
 import { MatDialog } from '@angular/material';
 import { SearchDialogComponent } from './user/parametric.search/search.dialog.component';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,7 +23,7 @@ export class AppComponent {
   }
   //---------------------------------------------------------------
   redirect_to_search() {
-    this._http_dep.get_branch_by_branch_code(this.branch_code.value).take(1).subscribe((res: any) => {
+    this._http_dep.get_branch_by_branch_code(this.branch_code.value).pipe(take(1)).subscribe((res: any) => {
       if (res.length > 0) {
         this._http_dep.setBranchSource(res);
         this.router.navigate(['/search', this.branch_code.value]);

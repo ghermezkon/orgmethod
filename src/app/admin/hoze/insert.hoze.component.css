@@ -1,17 +1,25 @@
-:host /deep/ .col-hoze-code{
-    text-align:center;
-    width:20%;
+.mat-column-hoze_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:15%;
 }
-:host /deep/ .col-hoze-name{
-    text-align:center;
+.mat-column-hoze_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width: 30%;
 }
-:host /deep/ .col-hoze-code-posti{
-    text-align:center;
+.mat-column-hoze_code_posti{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:20%;
 }
-:host /deep/ .col-hoze-email{
-    text-align:center;
+.mat-column-hoze_email{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     font-size:11px !important;
     width:20%;
 }

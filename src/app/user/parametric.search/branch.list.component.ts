@@ -23,7 +23,6 @@ export class BranchListComponent {
     //-------------------------------------------------------------------------------
     constructor(private _http_dep: DepartmentHttpService) {
         this._http_dep.getBranchSource().subscribe((res: any) => {
-            console.log(res);
             this.dataSource.data = res;
         })
     }

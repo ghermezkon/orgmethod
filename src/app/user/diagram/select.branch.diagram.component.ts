@@ -2,10 +2,11 @@ import { Component } from "@angular/core";
 import { FormControl, Validators, AbstractControlDirective, AbstractControl } from "@angular/forms";
 import { MessageService } from "../../service/message.service";
 import { DepartmentHttpService } from "../../admin/http.service/http.dep.service";
-import { Subject } from "rxjs";
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from "@angular/material";
 import * as _ from 'lodash';
+import { Subject } from "rxjs";
+import { take, takeUntil } from "rxjs/operators";
 class posttype {
     posttype_code: number;
     value: number;
@@ -53,7 +54,7 @@ export class SelectBranchDiagramComponent {
 
     separatorKeysCodes = [ENTER, COMMA];
     checkDepartment() {
-        this._http_dep.get_by_dep_code(this.dep_code.value.trim()).take(1).subscribe((res: any) => {
+        this._http_dep.get_by_dep_code(this.dep_code.value.trim()).pipe(take(1)).subscribe((res: any) => {
             if (res.length > 0) this.dep_code_correct = true;
             else {
                 this.dep_code_correct = false;
@@ -70,7 +71,7 @@ export class SelectBranchDiagramComponent {
             if (input) {
                 input.value = '';
             }
-            this._http_dep.get_branch_by_branch_dep_code(this.dep_code.value.trim(), value.trim()).take(1).takeUntil(this.complete$).subscribe((res: any) => {
+            this._http_dep.get_branch_by_branch_dep_code(this.dep_code.value.trim(), value.trim()).pipe(takeUntil(this.complete$)).subscribe((res: any) => {
                 if (res.length > 0) {
                     this.branch_list.push({ name: res[0].branch_name, value: value.trim() })
                 }
@@ -95,7 +96,7 @@ export class SelectBranchDiagramComponent {
         _.each(this.branch_list, (o) => {
             branch_list += o.value + ','
         })
-        this._http_dep.get_branch_by_branch_list(branch_list).take(1).takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.get_branch_by_branch_list(branch_list).pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             if (res.length > 0) {
 
                 this.column_name = alasql('SEARCH DISTINCT(/circlelist/personel/posttype) FROM ?', [res], function (res) {

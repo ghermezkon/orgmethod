@@ -5,13 +5,12 @@ import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { DepartmentHttpService } from "../../admin/http.service/http.dep.service";
 import { ActivatedRoute } from "@angular/router";
 import { FlagService } from "../../service/flag.service";
-import { map } from "rxjs/operators";
 import { GlobalHttpService } from "../../admin/http.service/global.http.service";
 import { BranchWorkHttpService } from "../../admin/http.service/http.branchwork.service";
 import { MatInput } from "@angular/material";
-import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 import { PagerService } from "../../service/pager.service";
+import { take } from "rxjs/operators";
 //--------------------------------------------------------
 export class MahFile {
     public fldcode: number;
@@ -74,7 +73,7 @@ export class InsertBranchWorkComponent {
     }
     //--------------------------------------------------------
     ngOnInit() {
-        this._http.get_current_date().take(1).subscribe((res: any) => {
+        this._http.get_current_date().pipe(take(1)).subscribe((res: any) => {
             this.mah_date = this.persianCalendarService.PersianCalendarShort(new Date(res));
         })
     }
@@ -84,10 +83,10 @@ export class InsertBranchWorkComponent {
             let mah_date_int: number;
             mah_date_int = this.mah_date_int = parseInt(String(this.mah_date).substr(0, 6));
             if (this.dep_code.valid) {
-                this._http_dep.get_by_dep_code(this.dep_code.value.trim()).take(1).subscribe((res: any) => {
+                this._http_dep.get_by_dep_code(this.dep_code.value.trim()).pipe(take(1)).subscribe((res: any) => {
                     if (res.length > 0) {
                         this.department = res[0];
-                        this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value).take(1).subscribe((res: any) => {
+                        this._http_branchwork.get_current_branchwork(this.mah_date_int, this.dep_code.value).pipe(take(1)).subscribe((res: any) => {
                             if (res.length > 0) {
                                 this.branchwork_list = res[0];
                                 this.create_document = false;
@@ -120,7 +119,7 @@ export class InsertBranchWorkComponent {
         let branch_list = [];
 
         let new_document = { ...document };
-        this._http_dep.get_branch_by_dep_code(this.dep_code.value).take(1).subscribe((res: any) => {
+        this._http_dep.get_branch_by_dep_code(this.dep_code.value).pipe(take(1)).subscribe((res: any) => {
             new_document.dep_code = this.dep_code.value;
             _.each(res, (o) => {
                 let mahFile_arr = [];
@@ -152,7 +151,7 @@ export class InsertBranchWorkComponent {
             })
             new_document.mah_date = this.mah_date_int;
 
-            this._http_branchwork.save_branchwork_all(new_document).take(1).subscribe((res: any) => {
+            this._http_branchwork.save_branchwork_all(new_document).pipe(take(1)).subscribe((res: any) => {
                 if (res.result.n >= 1) {
                     this.branchwork_list = res.ops[0];
                     this.setPage(1);
@@ -218,7 +217,7 @@ export class InsertBranchWorkComponent {
             })
             this.branchwork_list['items'][_.findIndex(this.branchwork_list['items'], branch[0])].items_branch = mahFile_arr;
             mahFile_arr = [];
-            this._http_branchwork.update_branchwork_all(this.branchwork_list).take(1).subscribe((res: any) => {
+            this._http_branchwork.update_branchwork_all(this.branchwork_list).pipe(take(1)).subscribe((res: any) => {
                 if (res.nModified >= 1) {
                     this.dataForm.patchValue({
                         branch_code: 0,

@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControlDirective, AbstractControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators,AbstractControl,AbstractControlDirective } from '@angular/forms';
 import { MessageService } from '../../service/message.service';
 import { PersianCalendarService } from '../../service/persian.calendar.service';
 import { GlobalHttpService } from '../http.service/global.http.service';
 import { ActivatedRoute } from '@angular/router';
-import 'rxjs/Rx';
-import 'rxjs/add/operator/take';
-import { Subject } from 'rxjs/Subject';
+import { map, take } from 'rxjs/operators';
 
 @Component({
     selector: 'insert-bank-com',
     templateUrl: 'insert.bank.component.html',
 })
-export class InsertBankComponent implements OnInit {
+export class InsertBankComponent {
     public _mask_date = [/\d/, /\d/, /\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/];
     public _mask_shomare_safhe = [/\d/, /\d/];
     //--------------------------------------------------------------------------------------------------------
@@ -34,7 +32,7 @@ export class InsertBankComponent implements OnInit {
         this.farsiDate_long = this.persianCalendarService.PersianCalendar(this.today);
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        this.route.data.map((data) => data['org_bank']).take(1).subscribe((org_bank) => {
+        this.route.data.pipe(map((data) => data['org_bank']), take(1)).subscribe((org_bank) => {
             if (org_bank.length > 0) {
                 this.bankForm.setValue(org_bank[0]);
                 this.state_save = false;
@@ -73,7 +71,7 @@ export class InsertBankComponent implements OnInit {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http.save_bank(data).take(1).subscribe((json: any) => {
+            this._http.save_bank(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.n >= 1) {
                     this._msg.getMessage('okSave');
                     this.state_save = false;
@@ -96,7 +94,7 @@ export class InsertBankComponent implements OnInit {
     update_bank(data?: any) {
         data.last_update_short = this.farsiDate_short;
         data.last_update_long = this.farsiDate_long;
-        this._http.update_bank(data).take(1).subscribe((json: any) => {
+        this._http.update_bank(data).pipe(take(1)).subscribe((json: any) => {
             if (json.nModified >= 1) {
                 this._msg.getMessage('okUpdate');
                 this.state_save = false;
@@ -113,5 +111,4 @@ export class InsertBankComponent implements OnInit {
         return this._msg.getError(control.errors);
     }
     //--------------------------------------------------------------------------------------------------------    
-    //--------------------------------------------------------------------------------------------------------
 } 

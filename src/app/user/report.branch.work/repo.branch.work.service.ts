@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject } from "rxjs";
-import { Observable } from "rxjs/Observable";
+import { Observable, ReplaySubject } from "rxjs";
 
 @Injectable()
 export class ReportBranchWorkService {

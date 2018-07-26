@@ -6,16 +6,12 @@ import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
-import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
-import { Observable } from "rxjs/Observable";
 import { Department, Hoze, Ostan, City } from "../classes/index";
 import { DepartmentHttpService } from "../http.service/http.dep.service";
-import { startWith } from "rxjs/operators/startWith";
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
 import { FlagService } from "../../service/flag.service";
+import { Observable, forkJoin } from "rxjs";
+import { map, take, startWith } from "rxjs/operators";
 
 @Component({
     selector: 'insert-branch-com',
@@ -68,7 +64,7 @@ export class InsertBranchComponent implements OnDestroy{
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_department'])).take(1).subscribe((org_department) => {
+            map((data) => data['org_department']),take(1)).subscribe((org_department) => {
                 if (org_department.length > 0) {
                     this.resetForm();
                     this.dep_list = org_department;
@@ -77,7 +73,7 @@ export class InsertBranchComponent implements OnDestroy{
                     this.hoze_list = [];
                 }
             });
-        this._http.get_all_ostan().take(1).subscribe((res: any) => {
+        this._http.get_all_ostan().pipe(take(1)).subscribe((res: any) => {
             this.ostan_list = res;
         })
         this.dep_list_obser = this.dataForm.get('department').get('dep_name').valueChanges.pipe(
@@ -150,11 +146,11 @@ export class InsertBranchComponent implements OnDestroy{
         this.dataForm.reset();
         let dep = _.find(this.dep_list, { dep_name: event.option.value }, function (o) { return o; });
         this.dataForm.get('department').patchValue(dep);
-        Observable.forkJoin(
+        forkJoin(
             [
                 this._http_dep.get_hoze_by_dep_name(event.option.value),
                 this._http_dep.get_branch_by_dep_name(event.option.value)
-            ]).take(1).subscribe((res: any) => {
+            ]).pipe(take(1)).subscribe((res: any) => {
                 if (res[0].length > 0) {
                     this.hoze_list = res[0];
                 }
@@ -190,7 +186,7 @@ export class InsertBranchComponent implements OnDestroy{
             let ostan = _.find(this.ostan_list, { ostan_name: event.value }, function (o) { return o; });
             this.dataForm.get('ostan').patchValue(ostan);
 
-            this._http.get_city_by_ostan_name(event.value).take(1).subscribe((res: any) => {
+            this._http.get_city_by_ostan_name(event.value).pipe(take(1)).subscribe((res: any) => {
                 this.city_list = res;
             })
             this.city_list_obser = this.dataForm.get('city').get('city_name').valueChanges.pipe(
@@ -222,7 +218,7 @@ export class InsertBranchComponent implements OnDestroy{
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http_dep.save_branch(data).take(1).subscribe((json: any) => {
+            this._http_dep.save_branch(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -256,7 +252,7 @@ export class InsertBranchComponent implements OnDestroy{
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http.update_equipment(data).take(1).subscribe((json: any) => {
+            this._http.update_equipment(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
 

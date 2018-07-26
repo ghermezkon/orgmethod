@@ -1,20 +1,30 @@
-:host /deep/ .col-branch_code{
-    text-align:center;
+.mat-column-branch_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:10%;
 }
-:host /deep/ .col-branch_name{
-    text-align:center;
+.mat-column-branch_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:40%;
 }
-:host /deep/ .col-branch_degree{
-    text-align:center;
+.mat-column-branch_degree{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:15%;
 }
-:host /deep/ .col-branch_type{
-    text-align:center;
+.mat-column-branch_type{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:20%;
 }
-:host /deep/ .col-city_name{
-    text-align:center;
+.mat-column-city_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:30%;
 }

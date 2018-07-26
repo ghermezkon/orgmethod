@@ -1,10 +1,12 @@
-:host /deep/ .col-posttype-code{
-    text-align:center;
-}
 .mat-column-posttype_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     max-width:30%;
 }
-:host /deep/ .col-posttype-name{
-    text-align:center;
+.mat-column-posttype_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:70%;
 }

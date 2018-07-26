@@ -3,6 +3,7 @@ import { DepartmentHttpService } from '../../admin/http.service/http.dep.service
 import { MessageService } from '../../service/message.service';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
+import { take } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'search.dialog.component.html',
@@ -78,7 +79,7 @@ export class SearchDialogComponent {
             desc_en: '"' + this.field_selected.field_code_en + '":{"' + this.operate_selected.operate_en + '":"' + this.field_value + '"}'
         };
 
-        this._http_dep.get_branch_parametric(query.desc_en).take(1).subscribe((res: any) => {
+        this._http_dep.get_branch_parametric(query.desc_en).pipe(take(1)).subscribe((res: any) => {
             this._http_dep.setBranchSource(res);
             this.field_selected = undefined;
             this.operate_selected = undefined;

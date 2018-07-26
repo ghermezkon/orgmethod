@@ -6,7 +6,7 @@ http = require('http'),
   mongoClient = require('mongodb').MongoClient;
 
 //const url = 'mongodb://localhost:27017';
-const url = 'mongodb://172.27.226.6:27017';
+const url = 'mongodb://172.18.200.11:27017';
 const dbName = 'orgmethod';
 
 app.use(function (req, res, next) {
@@ -21,7 +21,7 @@ app
   .use(bodyParser.json({ limit: '10mb', type: 'application/json' }))
   .use(bodyParser.urlencoded({ limit: '10mb', extended: true, type: 'application/x-www-form-urlencoding' }))
 
-mongoClient.connect(url, function (err, client) {
+mongoClient.connect(url,{ useNewUrlParser: true }, function (err, client) {
   console.log("Connected successfully to server");
 
   const db = client.db(dbName);

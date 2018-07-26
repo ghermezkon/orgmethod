@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { DepartmentHttpService } from "../http.service/http.dep.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { PersianCalendarService } from "../../service/persian.calendar.service";
@@ -10,8 +10,8 @@ import { MessageService } from "../../service/message.service";
 import { PersonelNumber } from "../classes/index";
 import { FlagService } from "../../service/flag.service";
 import { Subject } from "rxjs";
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/take';
+import { takeUntil, take } from "rxjs/operators";
+
 @Component({
     selector: 'branch-circle-com',
     templateUrl: './branch.circle.component.html',
@@ -52,7 +52,7 @@ export class BranchCircleComponent{
         this.posttype_select = new FormControl();
         this.personel_number = new FormControl('', Validators.compose([Validators.required, Validators.pattern('[1-9]{1}[0-9]*')]));
 
-        this._flag.get_reset_branch_personel_table_Source().takeUntil(this.complete$).subscribe((res: any) => {
+        this._flag.get_reset_branch_personel_table_Source().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             this.flag_reset_branch_personel_table = res;
         })                        
     }
@@ -62,16 +62,15 @@ export class BranchCircleComponent{
         this.farsiDate_long = this.persianCalendarService.PersianCalendar(this.today);
         this.date_message = "تاریخ ویرایش : " + this.farsiDate_long;
         //===========================================================
-        this._http_dep.getCircleTypeSource().takeUntil(this.complete$).subscribe((res: any) => {
+        this._http_dep.getCircleTypeSource().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             this.circletype_list = res;
         })
-        this._http.get_all_posttype().take(1).subscribe((res: any) => {
+        this._http.get_all_posttype().pipe(take(1)).subscribe((res: any) => {
             this.posttype_list = res;
         })
         this._http_dep.getBranchSource().subscribe((res: any) => {
             this.branch = res;
             if (this.branch.circlelist) {
-                //this.dataSourceCircle.data = this.branch.circlelist;
                 this.dataSourceCircle.data = [...this.branch.circlelist];
             }
             else {
@@ -101,7 +100,7 @@ export class BranchCircleComponent{
             this.branch.last_update_short = this.farsiDate_short;
             this.branch.last_update_long = this.farsiDate_long;
             //------------------------------------------------------------------
-            this._http_dep.update_branch(this.branch).takeUntil(this.complete$).subscribe((json: any) => {
+            this._http_dep.update_branch(this.branch).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
                     this.dataSourceCircle.data = this.branch.circlelist;
@@ -114,7 +113,7 @@ export class BranchCircleComponent{
     }
     //--------------------------------------------------------------------
     deleteCirlce(event) {
-        this._msg.getMessage('confirmDelete').afterClosed().takeUntil(this.complete$).subscribe(res => {
+        this._msg.getMessage('confirmDelete').afterClosed().pipe(takeUntil(this.complete$)).subscribe(res => {
             if (res) {
                 let index = this.branch.circlelist.findIndex(d => d.circletype_code == event.circletype_code);
                 this.branch.circlelist.splice(index, 1);
@@ -123,7 +122,7 @@ export class BranchCircleComponent{
                 this.branch.last_update_short = this.farsiDate_short;
                 this.branch.last_update_long = this.farsiDate_long;
                 //------------------------------------------------------------------
-                this._http_dep.update_branch(this.branch).takeUntil(this.complete$).subscribe((json: any) => {
+                this._http_dep.update_branch(this.branch).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                     if (json.nModified >= 1) {
                         this._msg.getMessage('okUpdate');
                         this.selectedRowIndex = -1;
@@ -165,7 +164,7 @@ export class BranchCircleComponent{
 
             this.branch.circlelist[index].personel.push(personel[0]);
 
-            this._http_dep.update_branch(this.branch).takeUntil(this.complete$).subscribe((json: any) => {
+            this._http_dep.update_branch(this.branch).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
                     this.dataSourcePost.data = this.branch.circlelist[index].personel;
@@ -179,7 +178,7 @@ export class BranchCircleComponent{
     }
     //--------------------------------------------------------------------
     deletePost(event) {
-        this._msg.getMessage('confirmDelete').afterClosed().takeUntil(this.complete$).subscribe(res => {
+        this._msg.getMessage('confirmDelete').afterClosed().pipe(takeUntil(this.complete$)).subscribe(res => {
             if (res) {
                 let index_circle = this.branch.circlelist.findIndex(d => d.circletype_code == this.selectedRowIndex);
 
@@ -190,7 +189,7 @@ export class BranchCircleComponent{
                 this.branch.last_update_short = this.farsiDate_short;
                 this.branch.last_update_long = this.farsiDate_long;
                 //------------------------------------------------------------------
-                this._http_dep.update_branch(this.branch).takeUntil(this.complete$).subscribe((json: any) => {
+                this._http_dep.update_branch(this.branch).pipe(takeUntil(this.complete$)).subscribe((json: any) => {
                     if (json.nModified >= 1) {
                         this._msg.getMessage('okUpdate');
                     } else {

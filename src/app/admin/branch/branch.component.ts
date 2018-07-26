@@ -9,9 +9,8 @@ import { GlobalHttpService } from '../http.service/global.http.service';
 import { BranchAmlakComponent } from './branch.amlak.component';
 import { BranchCircleComponent } from './branch.circle.component';
 import { DepartmentHttpService } from '../http.service/http.dep.service';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'branch.component.html'
@@ -24,10 +23,10 @@ export class BranchComponent {
 
     constructor(private _flag: FlagService, private _http: GlobalHttpService,
         private _http_dep: DepartmentHttpService) {
-        this._flag.get_show_branch_amlak_tab_Source().takeUntil(this.complete$).subscribe((res: any) => {
+        this._flag.get_show_branch_amlak_tab_Source().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             this.flag_show_branch_amlak_tab = res;
         })
-        this._flag.get_show_branch_circle_tab_Source().takeUntil(this.complete$).subscribe((res: any) => {
+        this._flag.get_show_branch_circle_tab_Source().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
             this.flag_show_branch_circle_tab = res;
         })
     }
@@ -38,7 +37,7 @@ export class BranchComponent {
 
         } else if (event.index == 2) {
             this._flag.set_show_branch_circle_tab_Source(true);
-            this._http.get_all_circletype().takeUntil(this.complete$).subscribe((res: any) => {
+            this._http.get_all_circletype().pipe(takeUntil(this.complete$)).subscribe((res: any) => {
                 this._http_dep.setCircleTypeSource(res);
             })
         } else {

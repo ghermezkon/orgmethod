@@ -2,8 +2,7 @@ import { Component } from "@angular/core";
 import { FormControl, Validators, AbstractControlDirective, AbstractControl } from "@angular/forms";
 import { MessageService } from "../../service/message.service";
 import { ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
-import 'rxjs/add/operator/take';
+import { map, take } from "rxjs/operators";
 import * as _ from 'lodash';
 import { BranchWorkHttpService } from "../../admin/http.service/http.branchwork.service";
 import { GlobalHttpService } from "../../admin/http.service/global.http.service";
@@ -36,7 +35,7 @@ export class TableBranchWorkComponent {
     //-------------------------------------------------------
     ngOnInit() {
         this.route.data.pipe(
-            map((data) => data['org_mah_date'])).take(1).subscribe((org_mah_date) => {
+            map((data) => data['org_mah_date']),take(1)).subscribe((org_mah_date) => {
                 if (org_mah_date.length > 0) {
                     this.mah_date_list = org_mah_date;
                 } else {
@@ -49,7 +48,7 @@ export class TableBranchWorkComponent {
     tableSelect(event) {
         var self = this;
         let fldcode_data: any[] = [];
-        this._http.get_all_tablecode_by_table_id(event.value).take(1).subscribe((res: any) => {
+        this._http.get_all_tablecode_by_table_id(event.value).pipe(take(1)).subscribe((res: any) => {
             if (res.length > 0) {
                 self.branch = _.find(_.pick(this.branchwork_list[0], 'items').items, (p) => {
                     return p.branch_code == self.branch_code.value;
@@ -86,7 +85,7 @@ export class TableBranchWorkComponent {
     }
     //-------------------------------------------------------
     find_branchwork() {
-        this._http_branchwork.get_current_branchwork(this.mah_date.value, this.dep_code.value).take(1).subscribe((res: any) => {
+        this._http_branchwork.get_current_branchwork(this.mah_date.value, this.dep_code.value).pipe(take(1)).subscribe((res: any) => {
             if (res.length > 0) {
                 this.branchwork_list = res;
             } else {

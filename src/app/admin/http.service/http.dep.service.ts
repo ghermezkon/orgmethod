@@ -1,10 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs/Observable";
-import { publishLast } from "rxjs/operators";
-import { Subject } from "rxjs/Subject";
-import { ReplaySubject } from "rxjs";
+import { ReplaySubject, Observable } from "rxjs";
 
 @Injectable()
 export class DepartmentHttpService {

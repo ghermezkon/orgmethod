@@ -69,8 +69,8 @@
                         </div>
                         <mat-table #datagrid [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="select">
-                                <mat-header-cell *matHeaderCellDef class="col-select"> </mat-header-cell>
-                                <mat-cell class="col-select" *matCellDef="let row">
+                                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
                                     <mat-checkbox (click)="selectRow(row)" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
                                     </mat-checkbox>
                                 </mat-cell>
@@ -78,21 +78,21 @@
 
                             <ng-container matColumnDef="dep_code">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> کد اداره </mat-header-cell>
-                                <mat-cell class="col-dep-code" *matCellDef="let element"> {{element.dep_code}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.dep_code}} </mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="dep_name">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> نام اداره </mat-header-cell>
-                                <mat-cell class="col-dep-name" *matCellDef="let element"> {{element.dep_name}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.dep_name}} </mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="dep_code_posti">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> کد پستی </mat-header-cell>
-                                <mat-cell class="col-dep-code-posti-name" *matCellDef="let element"> {{element.dep_code_posti}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.dep_code_posti}} </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="deptype">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header> نوع واحد </mat-header-cell>
-                                <mat-cell class="col-deptype" *matCellDef="let element"> {{element.deptype.deptype_name}} </mat-cell>
+                                <mat-cell *matCellDef="let element"> {{element.deptype.deptype_name}} </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                             <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'row-select': selectedRowIndex == row.dep_code}" (click)="selectRow(row)"></mat-row>

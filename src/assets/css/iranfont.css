@@ -2,20 +2,20 @@
 	font-family: IRANSans_normal;
 	font-style: normal;
 	font-weight: normal;
-	src: url('./assets/fonts/IranSens/eot/IRANSansWeb.eot');
-	src: url('./assets/fonts/IranSens/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'), 
-		 url('./assets/fonts/IranSens/woff2/IRANSansWeb.woff2') format('woff2'),
-		 url('./assets/fonts/IranSens/woff/IRANSansWeb.woff') format('woff'),
-		 url('./assets/fonts/IranSens/ttf/IRANSansWeb.ttf') format('truetype');
+	src: url('../fonts/IranSens/eot/IRANSansWeb.eot');
+	src: url('../fonts/IranSens/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'), 
+		 url('../fonts/IranSens/woff2/IRANSansWeb.woff2') format('woff2'),
+		 url('../fonts/IranSens/woff/IRANSansWeb.woff') format('woff'),
+		 url('../fonts/IranSens/ttf/IRANSansWeb.ttf') format('truetype');
 }
 @font-face{
 	font-family:'FontAwesome';
-	src:url('./assets/fonts/awesome/fontawesome-webfont.eot?v=4.4.0');
-	src:url('./assets/fonts/awesome/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),
-		url('./assets/fonts/awesome/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),
-		url('./assets/fonts/awesome/fontawesome-webfont.woff?v=4.4.0') format('woff'),
-		url('./assets/fonts/awesome/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),
-		url('./assets/fonts/awesome/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
+	src:url('../fonts/awesome/fontawesome-webfont.eot?v=4.4.0');
+	src:url('../fonts/awesome/fontawesome-webfont.eot?#iefix&v=4.4.0') format('embedded-opentype'),
+		url('../fonts/awesome/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),
+		url('../fonts/awesome/fontawesome-webfont.woff?v=4.4.0') format('woff'),
+		url('../fonts/awesome/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),
+		url('../fonts/awesome/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular') format('svg');
 	font-weight:normal;
 	font-style:normal;
 }

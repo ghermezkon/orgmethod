@@ -8,14 +8,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatSort } from '@angular/material';
 import { DepartmentHttpService } from '../http.service/http.dep.service';
 import { DepType, CircleType } from '../classes/index';
-import { Observable } from 'rxjs/Observable';
 import { GlobalHttpService } from '../http.service/global.http.service';
-import { startWith } from 'rxjs/operators/startWith';
-import { map } from 'rxjs/operators';
 import { FlagService } from '../../service/flag.service';
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take';
 import { SelectionModel } from '@angular/cdk/collections';
+import { map, take } from 'rxjs/operators';
 
 @Component({
     selector: 'insert-dep-com',
@@ -59,7 +56,7 @@ export class InsertDepartmentComponent {
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_department'])).take(1).subscribe((org_department) => {
+            map((data) => data['org_department']),take(1)).subscribe((org_department) => {
                 if (org_department.length > 0) {
                     this.data_list = org_department;
                     this.dataSource.data = this.data_list;
@@ -67,7 +64,7 @@ export class InsertDepartmentComponent {
                 } else {
                     this.state_save = true;
                 }
-                this._http.get_all_deptype().take(1).subscribe((res: any) => {
+                this._http.get_all_deptype().pipe(take(1)).subscribe((res: any) => {
                     this.deptype_list = res;
                 })
             });
@@ -120,7 +117,7 @@ export class InsertDepartmentComponent {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http_dep.save_department(data).take(1).subscribe((json: any) => {
+            this._http_dep.save_department(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -153,7 +150,7 @@ export class InsertDepartmentComponent {
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http_dep.update_department(data).take(1).subscribe((json: any) => {
+            this._http_dep.update_department(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1 || json.n >= 1) {
                     this._msg.getMessage('okUpdate');
 

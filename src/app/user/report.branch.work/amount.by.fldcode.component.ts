@@ -3,13 +3,12 @@ import { FormControl, Validators, AbstractControlDirective, AbstractControl } fr
 import { MessageService } from "../../service/message.service";
 import { BranchWorkHttpService } from "../../admin/http.service/http.branchwork.service";
 import { ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
-import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 import { GlobalHttpService } from "../../admin/http.service/global.http.service";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PagerService } from "../../service/pager.service";
+import { take, map } from "rxjs/operators";
 
 @Component({
     selector: 'amount-by-fldcode-com',
@@ -53,7 +52,7 @@ export class AmountByFldCodeComponent {
     //----------------------------------------------------------------------------------------
     ngOnInit() {
         this.route.data.pipe(
-            map((data) => data['org_mah_date'])).take(1).subscribe((org_mah_date) => {
+            map((data) => data['org_mah_date']),take(1)).subscribe((org_mah_date) => {
                 if (org_mah_date.length > 0) {
                     this.mah_date_list = org_mah_date;
                 } else {
@@ -83,7 +82,7 @@ export class AmountByFldCodeComponent {
     tableSelect(event) {
         var self = this;
         let fldcode_data: any[] = [];
-        this._http.get_all_tablecode_by_table_id(event.value).take(1).subscribe((res: any) => {
+        this._http.get_all_tablecode_by_table_id(event.value).pipe(take(1)).subscribe((res: any) => {
             if (res.length > 0) {
                 this.data_list = res;
                 this.dataSource.data = res;
@@ -104,7 +103,7 @@ export class AmountByFldCodeComponent {
         this.code_label = this._msg.getCode(event.value);
         if (event.value == 240 || event.value == 241 || event.value == 243 ||
             event.value == 244 || event.value == 245 || event.value == 248 || event.value == 249) {
-            this._http_branchwork.get_amount_by_fldcode_in_items_branch(this.mah_date.value, this.dep_code.value, event.value).take(1).subscribe((res: any) => {
+            this._http_branchwork.get_amount_by_fldcode_in_items_branch(this.mah_date.value, this.dep_code.value, event.value).pipe(take(1)).subscribe((res: any) => {
                 if (res.length > 0){
                     this.code_list = res;
                     this.setPage(1);
@@ -112,7 +111,7 @@ export class AmountByFldCodeComponent {
                 else this.code_list = undefined;
             })
         } else {
-            this._http_branchwork.get_amount_by_fldcode_in_items_dep(this.mah_date.value, this.dep_code.value, event.value).take(1).subscribe((res: any) => {
+            this._http_branchwork.get_amount_by_fldcode_in_items_dep(this.mah_date.value, this.dep_code.value, event.value).pipe(take(1)).subscribe((res: any) => {
                 if (res.length > 0){
                     this.code_list = res;
                     this.setPage(1);

@@ -13,7 +13,9 @@
 *:after {
   box-sizing: inherit;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 html {
   box-sizing: border-box;
 }
@@ -28,7 +30,7 @@ mat-sidenav-container,
   height: 100% !important;
   background-color: #F7F7FF;
   font-family: IRANSans_normal !important;
-  font-size: 14px;
+  font-size: 0.8rem;
   padding-top:20px;
 }
 
@@ -45,7 +47,10 @@ a:hover {
 mat-sidenav {
   width: 250px;
 }
-
+.mat-column-select{
+  width:5%;
+  padding-right:10px;
+}
 mat-tab-group,
 mat-table,
 mat-paginator,
@@ -63,6 +68,7 @@ button,
 .ui.horizontal.divider.header,
 .ui-datatable-thead,
 .ui-datatable-tablewrapper,
+.mat-form-field,.mat-list-item,
 h2, h3 {
   font-family: IRANSans_normal !important;
   font-weight: normal !important;

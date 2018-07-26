@@ -6,9 +6,8 @@ import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take';
-import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
+import { take } from "rxjs/operators";
 
 @Component({
     selector: 'insert-file-code-com',
@@ -95,7 +94,7 @@ export class InsertFileCodeComponent {
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
             data.row_code = +data.row_code;
-            this._http.save_tablecode(data).take(1).subscribe((json: any) => {
+            this._http.save_tablecode(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -129,7 +128,7 @@ export class InsertFileCodeComponent {
             return;
         } else {
             data.row_code = +data.row_code;
-            this._http.update_tablecode(data).take(1).subscribe((json: any) => {
+            this._http.update_tablecode(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
 

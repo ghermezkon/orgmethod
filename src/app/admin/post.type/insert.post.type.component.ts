@@ -5,10 +5,9 @@ import { MessageService } from "../../service/message.service";
 import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { ActivatedRoute } from "@angular/router";
-import { map } from "rxjs/operators";
-import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 import { SelectionModel } from "@angular/cdk/collections";
+import { map, take } from "rxjs/operators";
 
 @Component({
     selector: 'insert-post-type-com',
@@ -46,7 +45,7 @@ export class InsertPostTypeComponent {
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_posttype'])).take(1).subscribe((org_posttype) => {
+            map((data) => data['org_posttype']),take(1)).subscribe((org_posttype) => {
                 if (org_posttype.length > 0) {
                     this.data_list = org_posttype;
                     this.dataSource.data = this.data_list;
@@ -99,7 +98,7 @@ export class InsertPostTypeComponent {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http.save_posttype(data).take(1).subscribe((json: any) => {
+            this._http.save_posttype(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -132,7 +131,7 @@ export class InsertPostTypeComponent {
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http.update_posttype(data).take(1).subscribe((json: any) => {
+            this._http.update_posttype(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
 

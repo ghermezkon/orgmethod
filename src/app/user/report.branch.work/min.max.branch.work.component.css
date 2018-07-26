@@ -1,20 +1,28 @@
-:host /deep/ .col-row_code{
-    text-align:center;
+.mat-column-row_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 .mat-column-row_code{
     max-width:20%;
 }
-:host /deep/ .col-row_name{
-    text-align:center;
+.mat-column-row_name{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:80%;
     font-size:11px;
 }
-:host /deep/ .col-group_code{
-    text-align:center;
+.mat-column-group_code{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:10%;
 }
-:host /deep/ .col-sum_flag{
-    text-align:center;
+.mat-column-sum_flag{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width:10%;
 }
 :host /deep/ .radio-group {

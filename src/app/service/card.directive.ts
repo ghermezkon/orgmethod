@@ -24,12 +24,12 @@ export class HighlightDirective {
         this.renderer.addClass(this.el.nativeElement, 'mat-elevation-z8')
         this.renderer.setStyle(this.el.nativeElement, 'color', '#E91E63')
         this.renderer.setStyle(this.el.nativeElement, 'cursor', 'pointer')
-        this.renderer.setStyle(this.el.nativeElement.childNodes[4], 'background-color', color);
+        this.renderer.setStyle(this.el.nativeElement.childNodes[1], 'background-color', color);
 
         if(color == null){
             this.renderer.removeClass(this.el.nativeElement, 'mat-elevation-z8');
             this.renderer.setStyle(this.el.nativeElement, 'color', '#000')
-            this.renderer.setStyle(this.el.nativeElement.childNodes[4], 'background-color', this.defaultColor);
+            this.renderer.setStyle(this.el.nativeElement.childNodes[1], 'background-color', this.defaultColor);
         }
     }
 }

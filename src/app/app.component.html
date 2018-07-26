@@ -10,12 +10,15 @@
         </div>
       </div>
       <div class="four wide column">
-        <div style="padding-top:4px;">
-          <input type="text" style="position:absolute;width:100px;" class="ui input" [formControl]="branch_code" #branchCode
+        <div class="header-title" style="margin-top:-5px;">
+          <!-- <input type="text" style="position:absolute;width:100px;" class="ui input" [formControl]="branch_code" #branchCode
             placeholder="کد شعبه"
-            required maxlength="4">
+            required maxlength="4"> -->
+            <mat-form-field style="position:absolute;width:100px" >
+              <input matInput="matInput" maxlength="4" [formControl]="branch_code" #branchCode placeholder="کد شعبه" required autocomplete="off">              
+            </mat-form-field>
           <button mat-raised-button color="warn" *ngIf="!branch_code.invalid" 
-            style="position:relative;margin-right:90px;"
+            style="position:relative;margin-right:110px;"
             (click)="redirect_to_search()"
             color="warn">
             جستجو

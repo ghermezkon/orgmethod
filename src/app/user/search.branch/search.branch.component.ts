@@ -4,7 +4,6 @@ import { SharedModule } from "../../shared.module";
 import { RouterModule, ActivatedRoute } from "@angular/router";
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take';
 import { DepartmentHttpService } from "../../admin/http.service/http.dep.service";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { SelectionModel } from "@angular/cdk/collections";

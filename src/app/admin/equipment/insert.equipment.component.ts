@@ -6,9 +6,8 @@ import { PersianCalendarService } from "../../service/persian.calendar.service";
 import { GlobalHttpService } from "../http.service/global.http.service";
 import { ActivatedRoute } from "@angular/router";
 import * as _ from 'lodash';
-import 'rxjs/add/operator/take';
-import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
+import { map, take } from "rxjs/operators";
 
 @Component({
     selector: 'insert-equipment-com',
@@ -45,7 +44,7 @@ export class InsertEquipmentComponent {
         this.date_message = "تاریخ ذخیره سازی : " + this.farsiDate_long;
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this.route.data.pipe(
-            map((data) => data['org_equipment'])).take(1).subscribe((org_equipment) => {
+            map((data) => data['org_equipment']),take(1)).subscribe((org_equipment) => {
                 if (org_equipment.length > 0) {
                     this.data_list = org_equipment;
                     this.dataSource.data = this.data_list;
@@ -96,7 +95,7 @@ export class InsertEquipmentComponent {
             delete data._id;
             data.last_update_short = this.farsiDate_short;
             data.last_update_long = this.farsiDate_long;
-            this._http.save_equipment(data).take(1).subscribe((json: any) => {
+            this._http.save_equipment(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.result.n >= 1) {
                     this._msg.getMessage('okSave');
 
@@ -129,7 +128,7 @@ export class InsertEquipmentComponent {
             this._msg.getMessage('doubleRecord');
             return;
         } else {
-            this._http.update_equipment(data).take(1).subscribe((json: any) => {
+            this._http.update_equipment(data).pipe(take(1)).subscribe((json: any) => {
                 if (json.nModified >= 1) {
                     this._msg.getMessage('okUpdate');
 
